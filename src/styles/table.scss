@@ -1,0 +1,215 @@
+.dashboard {
+    &-container {
+      margin: 0 0;
+    
+      .app_ny {
+        margin: 10px 10px;
+        background: #ffffff;
+        padding: 20px 20px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+  
+      /*页面头部筛选*/
+      .index_header {
+        margin: 10px 10px;
+        background: #ffffff;
+        padding: 20px 20px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+  
+      .index_header_input {
+        width: 100%;
+        display: flex;
+        padding-bottom: 0;
+        padding-top:10px;
+      }
+  
+      .div1 {
+        width: 100%;
+        display: flex;
+        padding-bottom: 0;
+        padding-top:10px;
+      }
+      .el-input.is-disabled .el-input__inner {
+        background-color:rgb(255,255,255,0);
+        border-color: #e4e7ed;
+        color: #606266;
+        cursor: not-allowed;
+        border: none;
+        padding: 0;
+      }
+      .div2 {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+      }
+  
+      .zh {
+        color: #1890ff;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    }
+  
+    &-el-tab-pane {
+      font-size: 40px;
+      line-height: 46px;
+    }
+  }
+
+  .app {
+    &-container {
+      padding: 20px;
+      margin: 10px 10px;
+      background: #ffffff;
+      min-height: 600px;
+     
+      .nameChange {
+        margin: 0 auto;
+      }
+  
+      .formItem {
+        margin: 0 auto;
+      }
+  
+      .shenqing {
+        margin: 0 auto;
+        width: 90%;
+      }
+  
+      .shenqing .el-radio-group {
+        line-height: 40px;
+        font-size: 14px;
+        width: 500px;
+      }
+      .el-table--enable-row-transition .el-table__body td {
+        font-size: 14px;
+      }
+      .shenqing .el-form-item__content {
+        margin-left: 0 !important;
+      }
+      .el-table td,
+      .el-table th {
+        line-height: 34px;
+        height:34px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .el-dialog__header {
+        text-align: left;
+      }
+      .el-table th {
+        padding: 0 0;
+      }
+      .shenqing .el-radio__label {
+        width: 100px;
+        position: relative;
+        display: inline-block;
+      }
+  
+      .table_div th {
+        padding-top: 0;
+        padding-bottom: 0;
+        padding: 5px 0;
+        line-height: 26px;
+        text-align: center;
+        background: #f2f2f2;
+      }
+      .shenqing .el-input {
+        display: inline-block;
+        width: 60%;
+      }
+   
+      .shenqing .el-form-item__label {
+        width: 20% !important;
+        text-align: right;
+      }
+  
+      .shenqing .el-form-item__content {
+        width: 75% !important;
+        margin-left: 0 !important;
+        margin: 0 auto;
+      }
+  
+      .nameChange .el-form-item__label {
+        width:25% !important;
+      }
+  
+      .nameChange .el-form-item__content {
+        width: 75% !important;
+        margin-left: 25% !important;
+      }
+  
+      .formItem .el-form-item__label {
+        width:20% !important;
+        margin-left: 5% !important;
+      }
+  
+      .formItem .el-form-item__content {
+        width: 60% !important;
+        margin-left: 25% !important;
+      }
+  
+      .el-pagination {
+        padding-top: 20px;
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+  
+    &-el-tab-pane {
+      font-size: 40px;
+      line-height: 46px;
+    }
+  }
+
+  .linkman .el-popover__title{background:rgba(242, 242, 242, 1);}
+.boxzdy .el-checkbox {
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #dcdfe6;
+}
+
+.boxzdy .el-checkbox:hover {
+  background-color: #e6f7ff;
+}
+
+.screen-table {
+  width: 100%;
+
+  td {
+    &:first-child {
+      text-align: right;
+    }
+
+    .tag_items {
+      background-color: #ecf5ff;
+      display: inline-block;
+      height: 32px;
+      padding: 0 10px;
+      line-height: 30px;
+      font-size: 12px;
+      color: #409eff;
+      border: 1px solid #d9ecff;
+      border-radius: 4px;
+      box-sizing: border-box;
+      white-space: nowrap;
+      margin-right: 10px;
+    }
+
+    .items_active {
+      background-color: #fef0f0;
+      border-color: #fde2e2;
+      color: #f56c6c;
+    }
+  }
+}
+.popperclass{
+  padding: 0;
+}
