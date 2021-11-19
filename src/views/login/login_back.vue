@@ -10,33 +10,29 @@
         <h3 class="title">xx后台</h3>
       </div>
       <el-form-item prop="account">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
         <el-input
           ref="account"
           v-model="loginForm.account"
           placeholder="用户名"
           name="account"
           type="text"
-        />
+        >
+          <template #prefix>
+            <span><svg-icon icon-class="user" /></span>
+          </template>
+        </el-input>
       </el-form-item>
       <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
         <el-input
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
           placeholder="密码"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon
-            :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
-          />
-        </span>
-      </el-form-item>
+        >
+          <template #prefix>
+            <span><svg-icon icon-class="password" /></span>
+          </template>
+        </el-input></el-form-item>
       <div style="float: right; margin-top:20px">
         <el-button
           type="primary"
@@ -85,6 +81,10 @@ export default {
   background: #fff;
   min-height: 100%;
   width: 100%;
+  height: 100vh;
+  background: url('~@/assets/background.jpg') center center fixed
+      no-repeat;
+  background-size: cover;
   overflow: hidden;
   .login-form {
     position: relative;
@@ -95,9 +95,9 @@ export default {
     margin-top: 80px;
     overflow: hidden;
     border-width: 0px;
-    left: 0px;
-    top: 0px;
-    height: 500px;
+    left: 430px;
+    top: 100px;
+    height: 400px;
     background: inherit;
     background-color: rgba(255, 255, 255, 1);
     border: none;
