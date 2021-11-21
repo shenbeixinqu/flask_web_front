@@ -41,6 +41,7 @@
         <el-button
           type="primary"
           size="small"
+          @click.native.prevent="handleLogin"
         >
           登录
         </el-button>
@@ -61,8 +62,8 @@ export default {
   data() {
     return {
       loginForm: {
-        account: '',
-        password: '',
+        account: '52',
+        password: '12345678',
         token: ''
       },
       passwordType: 'password'
@@ -75,6 +76,21 @@ export default {
       } else {
         this.passwordType = 'password'
       }
+    },
+    handleLogin() {
+      this.$refs.loginForm.validate((valid) => {
+        if (valid) {
+          const _this = this
+          // this.loading = true
+          this.$store.dispatch('user/login', _this.loginForm).then(() => {
+            this.$store.dispatch('user/getInfo')
+            this.$router.push({ path: _this.redirect || '/' })
+            this.loading = false
+          })
+        } else {
+          return false
+        }
+      })
     }
   }
 }
