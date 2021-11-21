@@ -22,6 +22,12 @@
         highlight-current-row
       >
         <el-table-column
+          label="序号"
+          type="index"
+          width="80"
+          align="center"
+        />
+        <el-table-column
           v-if="ifShow"
           label="序号"
           prop="id"
@@ -60,6 +66,14 @@
           </template>
         </el-table-column>
       </el-table>
+      <pagination
+        v-show="total > 0"
+        class="list-page"
+        :total="total"
+        :page.sync="pn"
+        :limit.sync="limit"
+        @pagination="ActivityList"
+      />
     </div>
     <!--添加编辑-->
     <el-dialog
@@ -114,11 +128,13 @@
 <script>
 import '@/styles/list.scss'
 import '@/styles/table.scss'
+import pagination from '@/components/Pagination'
 import { getActivityList, addLaw, deleteLaw } from '@/api/safeCenter'
 import EditorBar from '@/components/WEditor'
 export default {
   components: {
-    EditorBar
+    EditorBar,
+    pagination
   },
   data() {
     return {
@@ -127,6 +143,9 @@ export default {
       tableData: [],
 
       ifShow: false,
+      pn: 1,
+      total: 0,
+      limit: 10,
       // 添加表单
       addForm: {
         title: '',
@@ -148,9 +167,14 @@ export default {
   },
   methods: {
     ActivityList() {
-      getActivityList().then(res => {
+      const searchData = {
+        limit: this.limit,
+        pn: this.pn
+      }
+      getActivityList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
+          this.total = res.data.total
         }
       })
     },
