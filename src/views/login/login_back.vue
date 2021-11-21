@@ -35,6 +35,7 @@
         </el-input></el-form-item>
       <div style="float: right; margin-top:20px">
         <el-button
+          :loading="loading"
           type="primary"
           size="small"
           @click.native.prevent="handleLogin"
@@ -62,7 +63,26 @@ export default {
         password: '12345678',
         token: ''
       },
+      loginRules: {
+        account: [{ required: true, message: '用户名不能为空' }],
+        password: [{ required: true, message: '密码不能为空' }]
+      },
+      loading: false,
       passwordType: 'password'
+    }
+  },
+  created() {
+    var token = this.$route.query.token
+    console.log('token', token)
+    if (token) {
+      const _this = this
+      this.loading = true
+      this.loginForm.token = token
+      this.$store.dispatch('user/login', _this.loginForm).then(() => {
+        this.$store.dispatch('user/getInfo')
+        this.$router.push({ path: _this.redirect || '/index' })
+        this.loading = false
+      })
     }
   },
   methods: {
@@ -74,10 +94,12 @@ export default {
       }
     },
     handleLogin() {
+      console.log('走这里')
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           const _this = this
-          // this.loading = true
+          this.loading = true
+
           this.$store.dispatch('user/login', _this.loginForm).then(() => {
             this.$store.dispatch('user/getInfo')
             this.$router.push({ path: _this.redirect || '/' })

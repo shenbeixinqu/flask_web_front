@@ -10,6 +10,10 @@
       </div>
     </div>
     <div class="app-container">
+      <el-button
+        size="mini"
+        @click="addLaw"
+      >添加</el-button>
       <el-table
         :data="tableData"
         border
@@ -44,6 +48,10 @@ export default {
       getActivityList().then(response => {
         console.log('res', response)
       })
+    },
+    // 添加
+    addLaw() {
+      console.log('添加法律')
     }
   }
 }

@@ -126,7 +126,7 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/consultCenter',
+    path: '/safeCenter',
     component: Layout,
     name: '咨询中心',
     meta: { title: '咨询中心' },
@@ -134,26 +134,26 @@ export const constantRoutes = [
       {
         path: 'Activity',
         name: 'Activity',
-        component: () => import('@/views/consultCenter/Activity'),
-        meta: { title: '党建活动' }
+        component: () => import('@/views/safeCenter/Law'),
+        meta: { title: '法律法规' }
       },
       {
         path: 'Dynamic',
         name: 'Dynamic',
-        component: () => import('@/views/consultCenter/Dynamic'),
-        meta: { title: '网安动态' }
+        component: () => import('@/views/safeCenter/Loophole'),
+        meta: { title: '漏洞发布' }
       },
       {
         path: 'Notify',
         name: 'Notify',
-        component: () => import('@/views/consultCenter/Notify'),
-        meta: { title: '协会通知' }
+        component: () => import('@/views/safeCenter/SafeEvent'),
+        meta: { title: '安全事件' }
       },
       {
         path: 'Train',
         name: 'Train',
-        component: () => import('@/views/consultCenter/Train'),
-        meta: { title: '教育培训' }
+        component: () => import('@/views/safeCenter/SafeService'),
+        meta: { title: '安全服务' }
       }
     ]
   },
