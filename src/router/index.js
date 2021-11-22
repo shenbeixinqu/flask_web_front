@@ -63,7 +63,20 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/association',
+    component: Layout,
+    name: '协会在线',
+    meta: { title: '协会在线' },
+    children: [
+      {
+        path: 'Member',
+        name: 'Member',
+        component: () => import('@/views/association/index'),
+        meta: { title: '会员注册'}
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
