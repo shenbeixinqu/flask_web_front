@@ -44,11 +44,12 @@ service.interceptors.response.use(
    */
   response => {
     const res = response.data
+    console.log('request_res', res)
     if (res.rc === 0) {
       return res
     } else {
       Message({
-        message: res.data.msg || 'Error',
+        message: res.msg || 'Error',
         type: 'error',
         duration: 5 * 1000
       })

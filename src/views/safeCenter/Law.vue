@@ -224,7 +224,8 @@ export default {
     },
     addSubmit() {
       addLaw(this.addForm).then(res => {
-        if (res.status === '200') {
+        console.log('law_res', res)
+        if (res.data.status === 200) {
           this.addDialogVisible = false
           this.$message.success(res.msg)
           this.$refs['addForm'].resetFields()
