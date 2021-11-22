@@ -28,7 +28,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
   {
@@ -73,7 +73,7 @@ export const constantRoutes = [
         path: 'Member',
         name: 'Member',
         component: () => import('@/views/association/index'),
-        meta: { title: '会员注册'}
+        meta: { title: '会员注册' }
       }
     ]
   },

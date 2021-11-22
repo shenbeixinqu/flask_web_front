@@ -7,7 +7,7 @@
       class="login-form"
     >
       <div class="title-container">
-        <h3 class="title">xx后台</h3>
+        <h3 class="title">网络安全后台</h3>
       </div>
       <el-form-item prop="account">
         <el-input
@@ -79,7 +79,7 @@ export default {
       this.loading = true
       this.loginForm.token = token
       this.$store.dispatch('user/login', _this.loginForm).then(() => {
-        this.$store.dispatch('user/getInfo')
+        // this.$store.dispatch('user/getInfo')
         this.$router.push({ path: _this.redirect || '/index' })
         this.loading = false
       })
@@ -94,14 +94,13 @@ export default {
       }
     },
     handleLogin() {
-      console.log('走这里')
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           const _this = this
           this.loading = true
 
           this.$store.dispatch('user/login', _this.loginForm).then(() => {
-            this.$store.dispatch('user/getInfo')
+            // this.$store.dispatch('user/getInfo')
             this.$router.push({ path: _this.redirect || '/' })
             this.loading = false
           })

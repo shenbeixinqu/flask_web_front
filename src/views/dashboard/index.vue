@@ -1,14 +1,18 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <page-header />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import PageHeader from '@/views/dashboard/component/PageHeader'
 
 export default {
   name: 'Dashboard',
+  components: {
+    PageHeader
+  },
   computed: {
     ...mapGetters([
       'name'

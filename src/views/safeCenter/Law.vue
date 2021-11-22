@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="index_header">
-      <div class="index_header_input">
+      <div class="index_header_input" style="position:relative">
         <el-row :gutter="20" style="width:100%">
           <el-col :span="3">
             <el-input size="mini" />
@@ -12,8 +12,10 @@
     <div class="app-container">
       <el-button
         size="mini"
+        class="table_btn"
         @click="addLaw"
       >添加</el-button>
+
       <el-table
         :data="tableData"
         border
@@ -241,5 +243,9 @@ export default {
         color: red;
         font-size: 18px;
         text-align: center;
+  }
+
+  .table_btn {
+    margin-bottom: 6px;
   }
 </style>
