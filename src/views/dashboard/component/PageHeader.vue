@@ -1,13 +1,11 @@
 <template>
   <el-col :span="24">
     <el-card class="page-header" shadow="never">
-      <!-- <el-image class="page-header-avatar" src="http://10.1.1.6/s/u/52/photo.jpg" /> -->
+      <el-avatar class="page-header-avatar" :src="avatar" />
       <div class="page-header-tip">
         <p class="page-header-tip-title">
           {{ handleTips() }}
         </p>
-        <p>token:{{ token }}</p>
-        <p>name: {{ name }}</p>
         <p class="page-header-tip-description" v-html="description" />
       </div>
     </el-card>
@@ -20,29 +18,16 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      description: '最近更新:1.添加首页'
+      avatar: 'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif',
+      description: '最近更新:预留'
     }
   },
   computed: {
     ...mapGetters([
       'name',
-      'avatar',
       'token'
     ])
   },
-  // created() {
-  //   // 在页面加载时读取sessionStorage里的状态信息
-
-  //   if (sessionStorage.getItem('store')) {
-  //     this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('store'))))
-  //   }
-
-  //   // 在页面刷新时将vuex里的信息保存到sessionStorage里
-
-  //   window.addEventListener('beforeunload', () => {
-  //     sessionStorage.setItem('store', JSON.stringify(this.$store.state))
-  //   })
-  // },
   methods: {
     handleTips() {
       const hour = new Date().getHours()

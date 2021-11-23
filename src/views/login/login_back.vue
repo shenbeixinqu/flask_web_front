@@ -44,8 +44,11 @@
         </el-button>
         <el-button
           size="small"
+          @click.native.prevent="handleRegister"
         >
+          <!-- <router-link to="/register"> -->
           注册
+          <!-- </router-link> -->
         </el-button>
       </div>
 
@@ -73,7 +76,6 @@ export default {
   },
   created() {
     var token = this.$route.query.token
-    console.log('token', token)
     if (token) {
       const _this = this
       this.loading = true
@@ -108,6 +110,9 @@ export default {
           return false
         }
       })
+    },
+    handleRegister() {
+      this.$router.push({ path: '/register' })
     }
   }
 }

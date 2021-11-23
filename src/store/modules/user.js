@@ -36,7 +36,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ account: account, password: password, token: token }).then(response => {
         const { data } = response.data
-        console.log('data', data)
         commit('SET_NAME', data.account)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
@@ -78,7 +77,6 @@ const actions = {
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
-        console.log('logout error', error)
         reject(error)
       })
     })

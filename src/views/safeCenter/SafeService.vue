@@ -196,7 +196,6 @@ export default {
     },
     // 上传提交
     addFileSubmit() {
-      console.log('上传提交')
       addService(this.addFileForm).then(res => {
         if (res.data.status === 200) {
           this.$message.success(res.msg)
@@ -210,7 +209,6 @@ export default {
     // 上传钩子
     handleChange(file, fileList) {
       this.addFileForm.fileList = fileList
-      console.log('file', file, 'fileList', fileList)
     },
     handleExceed(files) {
       this.$message.warning(
@@ -218,7 +216,6 @@ export default {
       )
     },
     handleSuccess(response, file, fileList) {
-      console.log('success_res', response)
       if (this.addFileForm.fileList.length > 1) {
         this.$message({
           message: '附件个数不超1个',

@@ -219,7 +219,6 @@ export default {
     // 确认删除
     saveDeleteDialog() {
       deleteEvent(this.deleteForm).then(res => {
-        console.log('status', res.data.status, typeof (res.data.status))
         if (res.data.status === 200) {
           this.$message.success(res.msg)
           this.deleteDialogVisible = false

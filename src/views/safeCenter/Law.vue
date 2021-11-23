@@ -220,7 +220,6 @@ export default {
     // 确认删除
     saveDeleteDialog() {
       deleteLaw(this.deleteForm).then(res => {
-        console.log('status', res.data.status, typeof (res.data.status))
         if (res.data.status === 200) {
           this.$message.success(res.msg)
           this.deleteDialogVisible = false
@@ -244,7 +243,6 @@ export default {
     },
     addSubmit(formName) {
       addLaw(this.addForm).then(res => {
-        console.log('law_res', res)
         if (res.data.status === 200) {
           this.addDialogVisible = false
           this.$message.success(res.msg)
