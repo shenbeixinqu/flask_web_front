@@ -12,6 +12,7 @@
     <div class="app-container">
       <el-button
         size="mini"
+        class="table_btn"
         @click="addLoophole"
       >添加</el-button>
       <el-table
@@ -241,5 +242,9 @@ export default {
         color: red;
         font-size: 18px;
         text-align: center;
+  }
+
+  .table_btn {
+    margin-bottom: 6px;
   }
 </style>

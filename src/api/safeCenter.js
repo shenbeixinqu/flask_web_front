@@ -79,3 +79,12 @@ export function deleteEvent(data) {
     data
   })
 }
+
+// 添加安全服务
+export function addService(data) {
+  return request({
+    url: 'cms/addService',
+    method: 'post',
+    data
+  })
+}

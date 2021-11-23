@@ -38,20 +38,20 @@ export const constantRoutes = [
     meta: { title: '咨询中心' },
     children: [
       {
-        path: 'Activity',
-        name: 'Activity',
+        path: 'Law',
+        name: 'Law',
         component: () => import('@/views/safeCenter/Law'),
         meta: { title: '法律法规' }
       },
       {
-        path: 'Dynamic',
-        name: 'Dynamic',
+        path: 'Loophole',
+        name: 'Loophole',
         component: () => import('@/views/safeCenter/Loophole'),
         meta: { title: '漏洞发布' }
       },
       {
-        path: 'Notify',
-        name: 'Notify',
+        path: 'SafeEvent',
+        name: 'SafeEvent',
         component: () => import('@/views/safeCenter/SafeEvent'),
         meta: { title: '安全事件' }
       },
