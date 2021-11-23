@@ -4,7 +4,20 @@
       <div class="index_header_input">
         <el-row :gutter="20" style="width:100%">
           <el-col :span="3">
-            <el-input size="mini" />
+            <el-input
+              v-model="addForm.title"
+              size="mini"
+              clearable
+              placeholder="请输入标题"
+            />
+          </el-col>
+          <el-col :span="2">
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-search"
+              @click="getList('search')"
+            >查询</el-button>
           </el-col>
         </el-row>
       </div>
@@ -167,15 +180,22 @@ export default {
     this.getList()
   },
   methods: {
-    getList() {
+    getList(type) {
+      if (type === 'search') {
+        this.pn = 1
+      }
       const searchData = {
         limit: this.limit,
-        pn: this.pn
+        pn: this.pn,
+        title: this.addForm.title
       }
       getLoopholeList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
           this.total = res.data.total
+          this.addForm.title = ''
+          this.addForm.detail = ''
+          this.addForm.id = ''
         }
       })
     },

@@ -88,3 +88,21 @@ export function addService(data) {
     data
   })
 }
+
+// 安全服务列表
+export function getServiceList(data) {
+  return request({
+    url: '/cms/serviceList',
+    method: 'get',
+    params: data
+  })
+}
+
+// 删除安全服务
+export function deleteService(data) {
+  return request({
+    url: 'cms/deleteService',
+    method: 'post',
+    data
+  })
+}

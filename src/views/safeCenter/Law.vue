@@ -4,7 +4,20 @@
       <div class="index_header_input" style="position:relative">
         <el-row :gutter="20" style="width:100%">
           <el-col :span="3">
-            <el-input size="mini" />
+            <el-input
+              v-model="addForm.title"
+              size="mini"
+              clearable
+              placeholder="请输入标题"
+            />
+          </el-col>
+          <el-col :span="2">
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-search"
+              @click="ActivityList('search')"
+            >查询</el-button>
           </el-col>
         </el-row>
       </div>
@@ -97,7 +110,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button size="small" type="primary" @click="addSubmit">提交</el-button>
+        <el-button size="small" type="primary" @click="addSubmit('addForm')">提交</el-button>
       </span>
     </el-dialog>
     <!--预览-->
@@ -168,10 +181,14 @@ export default {
     this.ActivityList()
   },
   methods: {
-    ActivityList() {
+    ActivityList(type) {
+      if (type === 'search') {
+        this.pn = 1
+      }
       const searchData = {
         limit: this.limit,
-        pn: this.pn
+        pn: this.pn,
+        title: this.addForm.title
       }
       getActivityList(searchData).then(res => {
         if (res.data.status === 200) {
@@ -184,6 +201,9 @@ export default {
     addLaw() {
       this.dialogTitle = '法律法规添加'
       this.addDialogVisible = true
+      this.addForm.title = ''
+      this.addForm.detail = ''
+      this.addForm.id = ''
     },
     editLaw(row) {
       this.dialogTitle = '法律法规修改'
@@ -222,13 +242,13 @@ export default {
     change(val) {
       this.addForm.detail = val
     },
-    addSubmit() {
+    addSubmit(formName) {
       addLaw(this.addForm).then(res => {
         console.log('law_res', res)
         if (res.data.status === 200) {
           this.addDialogVisible = false
           this.$message.success(res.msg)
-          this.$refs['addForm'].resetFields()
+          this.$refs[formName].resetFields()
           this.ActivityList()
         } else {
           this.$message.error(res.msg)

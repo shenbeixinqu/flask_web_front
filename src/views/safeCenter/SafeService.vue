@@ -4,7 +4,20 @@
       <div class="index_header_input">
         <el-row :gutter="20" style="width:100%">
           <el-col :span="3">
-            <el-input size="mini" />
+            <el-input
+              v-model="addFileForm.title"
+              size="mini"
+              clearable
+              placeholder="请输入标题"
+            />
+          </el-col>
+          <el-col :span="2">
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-search"
+              @click="getList('search')"
+            >查询</el-button>
           </el-col>
         </el-row>
       </div>
@@ -28,6 +41,36 @@
           width="80"
           align="center"
         />
+        <el-table-column
+          v-if="ifShow"
+          label="序号"
+          prop="id"
+        />
+        <el-table-column
+          label="标题"
+          prop="title"
+        />
+        <el-table-column
+          label="类型"
+          prop="mold"
+        />
+        <el-table-column
+          label="添加时间"
+          prop="addtime"
+        />
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="120"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <el-button
+              size="mini"
+              @click="delService(scope.row)"
+            >删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <pagination
         v-show="total > 0"
@@ -64,9 +107,9 @@
         <el-form-item v-if="addFileForm.mold === '2'" label="文件:">
           <el-upload
             ref="upload"
-            multiple="true"
             :action="action"
             :file-list="addFileForm.fileList"
+            :on-success="handleSuccess"
             :on-change="handleChange"
             :on-exceed="handleExceed"
           >
@@ -78,6 +121,19 @@
         <el-button size="small" type="primary" @click="addFileSubmit">提交</el-button>
       </span>
     </el-dialog>
+    <!--删除-->
+    <el-dialog
+      title="安全服务删除"
+      :visible.sync="deleteDialogVisible"
+      width="30%"
+      center
+    >
+      <div class="dialog_text">请确认是否删除所选安全服务</div>
+      <span slot="footer">
+        <el-button size="small" @click="closeDialogVisible('deleteDialogVisible')">取消</el-button>
+        <el-button size="small" type="primary" @click="saveDeleteDialog">确认</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -85,7 +141,7 @@
 import '@/styles/list.scss'
 import '@/styles/table.scss'
 import pagination from '@/components/Pagination'
-import { addService } from '@/api/safeCenter'
+import { addService, getServiceList, deleteService } from '@/api/safeCenter'
 export default {
   components: {
     pagination
@@ -93,18 +149,24 @@ export default {
   data() {
     return {
       tableData: [],
+      ifShow: false,
       pn: 1,
       total: 0,
       limit: 10,
       addDialogVisible: false,
+      deleteDialogVisible: false,
       addFileForm: {
         title: '',
         mold: '',
         link: '',
-        fileList: []
+        fileList: [],
+        file_dir: ''
+      },
+      deleteForm: {
+        deleteId: ''
       },
       // 文件上传参数
-      action: 'http://172.18.3.167:5000/cms/fileUpload',
+      action: 'http://172.18.3.167:5000/cms/fileUpload'
       // fileList: []
     }
   },
@@ -112,8 +174,21 @@ export default {
     this.getList()
   },
   methods: {
-    getList() {
-      console.log('ohhhh')
+    getList(type) {
+      if (type === 'search') {
+        this.pn = 1
+      }
+      const searchData = {
+        limit: this.limit,
+        pn: this.pn,
+        title: this.addFileForm.title
+      }
+      getServiceList(searchData).then(res => {
+        if (res.data.status === 200) {
+          this.tableData = res.data.data
+          this.total = res.data.total
+        }
+      })
     },
     // 上传文件Dialog
     addFile() {
@@ -123,7 +198,13 @@ export default {
     addFileSubmit() {
       console.log('上传提交')
       addService(this.addFileForm).then(res => {
-        console.log('flie_res', res)
+        if (res.data.status === 200) {
+          this.$message.success(res.msg)
+          this.addDialogVisible = false
+          this.getList()
+        } else {
+          this.$message.error(res.msg)
+        }
       })
     },
     // 上传钩子
@@ -135,6 +216,39 @@ export default {
       this.$message.warning(
         `当前限制选择1个文件, 本次选择了${files.length}个文件`
       )
+    },
+    handleSuccess(response, file, fileList) {
+      console.log('success_res', response)
+      if (this.addFileForm.fileList.length > 1) {
+        this.$message({
+          message: '附件个数不超1个',
+          type: 'warning'
+        })
+        return false
+      } else {
+        this.addFileForm.file_dir = response.file_dir
+      }
+    },
+    // 关闭dialog
+    closeDialogVisible(dialogName) {
+      this[dialogName] = false
+    },
+    // 删除安全服务
+    delService(row) {
+      this.deleteDialogVisible = true
+      this.deleteForm.deleteId = row.id
+    },
+    // 确认删除
+    saveDeleteDialog() {
+      deleteService(this.deleteForm).then(res => {
+        if (res.data.status === 200) {
+          this.$message.success(res.msg)
+          this.deleteDialogVisible = false
+          this.getList()
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
     }
   }
 }

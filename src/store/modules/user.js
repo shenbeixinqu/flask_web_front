@@ -1,11 +1,12 @@
 import { login, logout } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import globalLocal from '@/utils/local'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
-    name: '',
+    name: globalLocal.get('name') || '',
     avatar: ''
   }
 }
@@ -21,6 +22,7 @@ const mutations = {
   },
   SET_NAME: (state, name) => {
     state.name = name
+    globalLocal.set('name', name)
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
@@ -33,7 +35,6 @@ const actions = {
     const { account, password, token } = userInfo
     return new Promise((resolve, reject) => {
       login({ account: account, password: password, token: token }).then(response => {
-        console.log('response', response)
         const { data } = response.data
         console.log('data', data)
         commit('SET_NAME', data.account)
@@ -72,6 +73,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       logout(state.token).then((res) => {
         removeToken() // must remove  token  first
+        globalLocal.clear()
         resetRouter()
         commit('RESET_STATE')
         resolve()
