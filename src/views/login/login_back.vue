@@ -9,6 +9,7 @@
       <div class="title-container">
         <h3 class="title">网络安全后台</h3>
       </div>
+      <div class="title-tips">登录</div>
       <el-form-item prop="account">
         <el-input
           ref="account"
@@ -46,9 +47,7 @@
           size="small"
           @click.native.prevent="handleRegister"
         >
-          <!-- <router-link to="/register"> -->
           注册
-          <!-- </router-link> -->
         </el-button>
       </div>
 
@@ -171,6 +170,16 @@ export default {
       color: #1891ff;
       line-height: 36px;
     }
+  }
+
+  .title-tips {
+    margin-top: 29px;
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: 400;
+    color: #fff;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .show-pwd {

@@ -5,7 +5,7 @@
         <el-row :gutter="20" style="width:100%">
           <el-col :span="3">
             <el-input
-              v-model="addFileForm.title"
+              v-model="addFileForm.kword"
               size="mini"
               clearable
               placeholder="请输入标题"
@@ -160,13 +160,14 @@ export default {
         mold: '',
         link: '',
         fileList: [],
-        file_dir: ''
+        file_dir: '',
+        kword: ''
       },
       deleteForm: {
         deleteId: ''
       },
       // 文件上传参数
-      action: 'http://172.18.3.167:5000/cms/fileUpload'
+      action: 'http://192.168.31.249:5000/cms/fileUpload'
       // fileList: []
     }
   },
@@ -181,7 +182,8 @@ export default {
       const searchData = {
         limit: this.limit,
         pn: this.pn,
-        title: this.addFileForm.title
+        title: this.addFileForm.title,
+        kword: this.addFileForm.kword
       }
       getServiceList(searchData).then(res => {
         if (res.data.status === 200) {
@@ -193,6 +195,11 @@ export default {
     // 上传文件Dialog
     addFile() {
       this.addDialogVisible = true
+      this.addFileForm.title = ''
+      this.addFileForm.mold = ''
+      this.addFileForm.link = ''
+      this.addFileForm.fileList = []
+      this.addFileForm.file_dir = ''
     },
     // 上传提交
     addFileSubmit() {

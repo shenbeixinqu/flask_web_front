@@ -9,6 +9,14 @@ export function login(data) {
   })
 }
 
+export function register(data) {
+  return request({
+    url: '/cms/register',
+    method: 'post',
+    data
+  })
+}
+
 // export function getInfo(token) {
 //   return request({
 //     // url: '/vue-admin-template/user/info',
