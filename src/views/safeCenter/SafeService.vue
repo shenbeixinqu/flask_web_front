@@ -167,7 +167,8 @@ export default {
         deleteId: ''
       },
       // 文件上传参数
-      action: 'http://192.168.31.249:5000/cms/fileUpload'
+      // action: 'http://192.168.31.249:5000/cms/fileUpload'
+      action: 'http://waxh.pg024.com/cms/fileUpload'
       // fileList: []
     }
   },
@@ -182,7 +183,6 @@ export default {
       const searchData = {
         limit: this.limit,
         pn: this.pn,
-        title: this.addFileForm.title,
         kword: this.kword
       }
       getServiceList(searchData).then(res => {

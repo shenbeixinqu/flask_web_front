@@ -55,9 +55,10 @@ export default {
       this.editor = new E(this.$refs.toolbar, this.$refs.editor)
       this.editor.config.uploadImgShowBase64 = false // base 64 存储图片
       //   this.editor.config.uploadImgServer = 'http://otp.cdinfotech.top/file/upload_images'// 配置服务器端地址
-      this.editor.config.uploadImgServer = 'http://localhost:5000/cms/imgUpload'// 配置服务器端地址
-
-      this.editor.config.uploadImgHeaders = { }// 自定义 header
+      // this.editor.config.uploadImgServer = 'http://127.0.0.1:5000/cms/imgUpload'// 配置服务器端地址
+      this.editor.config.uploadImgServer = 'http://waxh.pg024.com/cms/imgUpload'// 配置服务器端地址
+      this.editor.config.uploadImgHeaders = {}
+      // 自定义 header
       this.editor.config.uploadFileName = 'file' // 后端接受上传文件的参数名
       this.editor.config.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
       this.editor.config.uploadImgMaxLength = 6 // 限制一次最多上传 3 张图片

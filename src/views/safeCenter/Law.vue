@@ -99,6 +99,7 @@
       <el-form
         ref="addForm"
         :model="addForm"
+        :rules="addRules"
         label-width="120px"
         class="formItem"
       >
@@ -167,6 +168,10 @@ export default {
         detail: '',
         id: ''
       },
+      addRules: {
+        title: [{ required: true, message: '标题不能为空' }],
+        detail: [{ required: true, message: '内容不能为空' }]
+      },
       kword: '',
       addDialogVisible: false,
       previewDialogVisible: false,
@@ -189,7 +194,6 @@ export default {
       const searchData = {
         limit: this.limit,
         pn: this.pn,
-        title: this.addForm.title,
         kword: this.kword
       }
       getActivityList(searchData).then(res => {

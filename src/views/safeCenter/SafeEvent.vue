@@ -188,7 +188,6 @@ export default {
       const searchData = {
         limit: this.limit,
         pn: this.pn,
-        title: this.addForm.title,
         kword: this.kword
       }
       getEventList(searchData).then(res => {
