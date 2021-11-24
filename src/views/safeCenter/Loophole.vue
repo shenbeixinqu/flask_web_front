@@ -5,7 +5,7 @@
         <el-row :gutter="20" style="width:100%">
           <el-col :span="3">
             <el-input
-              v-model="addForm.title"
+              v-model="kword"
               size="mini"
               clearable
               placeholder="请输入标题"
@@ -166,6 +166,7 @@ export default {
         detail: '',
         id: ''
       },
+      kword: '',
       addDialogVisible: false,
       previewDialogVisible: false,
       deleteDialogVisible: false,
@@ -187,7 +188,8 @@ export default {
       const searchData = {
         limit: this.limit,
         pn: this.pn,
-        title: this.addForm.title
+        title: this.addForm.title,
+        kword: this.kword
       }
       getLoopholeList(searchData).then(res => {
         if (res.data.status === 200) {

@@ -5,7 +5,7 @@
         <el-row :gutter="20" style="width:100%">
           <el-col :span="3">
             <el-input
-              v-model="addFileForm.kword"
+              v-model="kword"
               size="mini"
               clearable
               placeholder="请输入标题"
@@ -160,9 +160,9 @@ export default {
         mold: '',
         link: '',
         fileList: [],
-        file_dir: '',
-        kword: ''
+        file_dir: ''
       },
+      kword: '',
       deleteForm: {
         deleteId: ''
       },
@@ -183,7 +183,7 @@ export default {
         limit: this.limit,
         pn: this.pn,
         title: this.addFileForm.title,
-        kword: this.addFileForm.kword
+        kword: this.kword
       }
       getServiceList(searchData).then(res => {
         if (res.data.status === 200) {
