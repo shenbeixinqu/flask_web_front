@@ -103,10 +103,10 @@
         label-width="120px"
         class="formItem"
       >
-        <el-form-item label="标题:">
+        <el-form-item label="标题:" prop="title">
           <el-input v-model="addForm.title" />
         </el-form-item>
-        <el-form-item label="内容:">
+        <el-form-item label="内容:" prop="detail">
           <editor-bar v-model="addForm.detail" :is-clear="isClear" @change="change" />
         </el-form-item>
       </el-form>
@@ -248,14 +248,20 @@ export default {
       this.addForm.detail = val
     },
     addSubmit(formName) {
-      addLaw(this.addForm).then(res => {
-        if (res.data.status === 200) {
-          this.addDialogVisible = false
-          this.$message.success(res.msg)
-          this.$refs[formName].resetFields()
-          this.ActivityList()
+      this.$refs['addForm'].validate((valid) => {
+        if (valid) {
+          addLaw(this.addForm).then(res => {
+            if (res.data.status === 200) {
+              this.addDialogVisible = false
+              this.$message.success(res.msg)
+              this.$refs[formName].resetFields()
+              this.ActivityList()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         } else {
-          this.$message.error(res.msg)
+          return false
         }
       })
     }

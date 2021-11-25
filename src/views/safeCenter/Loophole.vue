@@ -98,13 +98,14 @@
       <el-form
         ref="addForm"
         :model="addForm"
+        :rules="addRules"
         label-width="120px"
         class="formItem"
       >
-        <el-form-item label="标题:">
+        <el-form-item label="标题:" prop="title">
           <el-input v-model="addForm.title" />
         </el-form-item>
-        <el-form-item label="内容:">
+        <el-form-item label="内容:" prop="detail">
           <editor-bar v-model="addForm.detail" :is-clear="isClear" @change="change" />
         </el-form-item>
       </el-form>
@@ -165,6 +166,10 @@ export default {
         title: '',
         detail: '',
         id: ''
+      },
+      addRules: {
+        title: [{ required: true, message: '标题不能为空' }],
+        detail: [{ required: true, message: '内容不能为空' }]
       },
       kword: '',
       addDialogVisible: false,
@@ -242,14 +247,20 @@ export default {
       this.addForm.detail = val
     },
     addSubmit() {
-      addLoophole(this.addForm).then(res => {
-        if (res.data.status === 200) {
-          this.addDialogVisible = false
-          this.$message.success(res.msg)
-          this.$refs['addForm'].resetFields()
-          this.getList()
+      this.$refs['addForm'].validate((valid) => {
+        if (valid) {
+          addLoophole(this.addForm).then(res => {
+            if (res.data.status === 200) {
+              this.addDialogVisible = false
+              this.$message.success(res.msg)
+              this.$refs['addForm'].resetFields()
+              this.getList()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         } else {
-          this.$message.error(res.msg)
+          return false
         }
       })
     }
