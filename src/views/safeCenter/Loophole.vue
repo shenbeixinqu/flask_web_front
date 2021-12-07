@@ -51,6 +51,11 @@
           prop="title"
         />
         <el-table-column
+          label="排序"
+          prop="reorder"
+          width="100px"
+        />
+        <el-table-column
           v-if="ifShow"
           label="内容"
           prop="content"
@@ -58,6 +63,7 @@
         <el-table-column
           label="添加时间"
           prop="addtime"
+          align="center"
         />
         <el-table-column
           fixed="right"
@@ -105,6 +111,9 @@
         <el-form-item label="标题:" prop="title">
           <el-input v-model="addForm.title" />
         </el-form-item>
+        <el-form-item label="排序:" prop="reorder">
+          <el-input v-model="addForm.reorder" />
+        </el-form-item>
         <el-form-item label="内容:" prop="detail">
           <editor-bar v-model="addForm.detail" :is-clear="isClear" @change="change" />
         </el-form-item>
@@ -119,7 +128,7 @@
       :visible.sync="previewDialogVisible"
       width="60%"
     >
-      <span v-html="previewContent" />
+      <span class="table-item" v-html="previewContent" />
       <span slot="footer">
         <el-button size="small" @click="closeDialogVisible('previewDialogVisible')">关闭</el-button>
       </span>
@@ -165,11 +174,13 @@ export default {
       addForm: {
         title: '',
         detail: '',
-        id: ''
+        id: '',
+        reorder: ''
       },
       addRules: {
         title: [{ required: true, message: '标题不能为空' }],
-        detail: [{ required: true, message: '内容不能为空' }]
+        detail: [{ required: true, message: '内容不能为空' }],
+        reorder: [{ required: true, message: '排序不能为空' }]
       },
       kword: '',
       addDialogVisible: false,
@@ -277,5 +288,13 @@ export default {
 
   .table_btn {
     margin-bottom: 6px;
+  }
+
+  ::v-deep .table-item table td {
+    width: 60vw;
+    border-collapse: collapse;
+    font-size: 12px;
+    border: 1px solid #e0e0e0;
+    word-break: break-all;
   }
 </style>

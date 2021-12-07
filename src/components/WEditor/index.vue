@@ -48,6 +48,12 @@ export default {
   mounted() {
     this.seteditor()
     this.editor.txt.html(this.value)
+    this.editor.config.customUploadImg = function(resultFiles, insertImgFn) {
+      console.log('resultFiles', resultFiles, 'insertImgFn', insertImgFn),
+      resultFiles.forEach((element) => {
+        console.log('element', element)
+      })
+    }
   },
   methods: {
     seteditor() {
