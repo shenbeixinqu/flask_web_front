@@ -83,6 +83,32 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/Overview',
+    component: Layout,
+    name: 'Overview',
+    meta: { title: '协会概况' },
+    children: [
+      {
+        path: 'Introduction',
+        name: 'Introduction',
+        component: () => import('@/views/Overview/Introduction'),
+        meta: { title: '协会简介' }
+      },
+      {
+        path: 'Bylaws',
+        name: 'Bylaws',
+        component: () => import('@/views/Overview/Bylaws'),
+        meta: { title: '协会章程' }
+      },
+      {
+        path: 'Branch',
+        name: 'Branch',
+        component: () => import('@/views/Overview/Branch'),
+        meta: { title: '分支机构' }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
