@@ -48,12 +48,12 @@ export default {
   mounted() {
     this.seteditor()
     this.editor.txt.html(this.value)
-    this.editor.config.customUploadImg = function(resultFiles, insertImgFn) {
-      console.log('resultFiles', resultFiles, 'insertImgFn', insertImgFn),
-      resultFiles.forEach((element) => {
-        console.log('element', element)
-      })
-    }
+    // this.editor.config.customUploadImg = function(resultFiles, insertImgFn) {
+    //   console.log('resultFiles', resultFiles, 'insertImgFn', insertImgFn),
+    //   resultFiles.forEach((element) => {
+    //     console.log('element', element)
+    //   })
+    // }
   },
   methods: {
     seteditor() {
@@ -64,6 +64,7 @@ export default {
       // this.editor.config.uploadImgServer = 'http://127.0.0.1:5000/cms/imgUpload'// 配置服务器端地址
       this.editor.config.uploadImgServer = 'http://waxh.pg024.com/cms/imgUpload'// 配置服务器端地址
       this.editor.config.uploadImgHeaders = {}
+      // this.editor.config.pasteIgnoreImg = true
       // 自定义 header
       this.editor.config.uploadFileName = 'file' // 后端接受上传文件的参数名
       this.editor.config.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
