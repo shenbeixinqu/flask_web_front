@@ -7,7 +7,7 @@
       <el-button
         size="mini"
         class="table_btn"
-        @click="addBylaws"
+        @click="addStandard"
       >添加</el-button>
       <el-table
         :data="tableData"
@@ -40,15 +40,15 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="editBylaws(scope.row)"
+              @click="editStandard(scope.row)"
             >编辑</el-button>
             <el-button
               size="mini"
-              @click="previewBylaws(scope.row)"
+              @click="previewStandard(scope.row)"
             >预览</el-button>
             <el-button
               size="mini"
-              @click="delBylaws(scope.row)"
+              @click="delStandard(scope.row)"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -59,7 +59,7 @@
         :total="total"
         :page.sync="pn"
         :limit.sync="limit"
-        @pagination="getBylawsList"
+        @pagination="getStandardList"
       />
       <!--添加编辑-->
       <el-dialog
@@ -100,7 +100,7 @@
         width="30%"
         center
       >
-        <div class="dialog_text">请确认是否删除所选协会章程</div>
+        <div class="dialog_text">请确认是否删除所选会费标准</div>
         <span slot="footer">
           <el-button size="small" @click="closeDialogVisible('deleteDialogVisible')">取消</el-button>
           <el-button size="small" type="primary" @click="saveDeleteDialog">确认</el-button>
@@ -114,7 +114,7 @@
 import '@/styles/list.scss'
 import '@/styles/table.scss'
 import pagination from '@/components/Pagination'
-import { bylawsList, addBylaws, deleteBylaws } from '@/api/overview'
+import { standardList, addStandard, deleteStandard } from '@/api/overview'
 import EditorBar from '@/components/WEditor'
 export default {
   components: {
@@ -148,15 +148,15 @@ export default {
     }
   },
   created() {
-    this.getBylawsList()
+    this.getStandardList()
   },
   methods: {
-    getBylawsList() {
+    getStandardList() {
       const searchData = {
         limit: this.limit,
         pn: this.pn
       }
-      bylawsList(searchData).then(res => {
+      standardList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
           this.total = res.data.total
@@ -164,15 +164,15 @@ export default {
       })
     },
     // 添加
-    addBylaws() {
-      this.dialogTitle = '协会章程添加'
+    addStandard() {
+      this.dialogTitle = '会费标准添加'
       this.addDialogVisible = true
       this.addForm.id = ''
       this.addForm.content = ''
     },
     // 编辑
-    editBylaws(row) {
-      this.dialogTitle = '协会章程编辑'
+    editStandard(row) {
+      this.dialogTitle = '会费标准编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
       this.addForm.content = row.content
@@ -181,12 +181,12 @@ export default {
     addSubmit(formName) {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
-          addBylaws(this.addForm).then(res => {
+          addStandard(this.addForm).then(res => {
             if (res.data.status === 200) {
               this.addDialogVisible = false
               this.$message.success(res.msg)
               this.$refs[formName].resetFields()
-              this.getBylawsList()
+              this.getStandardList()
             } else {
               this.$message.error(res.msg)
             }
@@ -195,22 +195,22 @@ export default {
       })
     },
     // 预览
-    previewBylaws(row) {
+    previewStandard(row) {
       this.previewDialogVisible = true
       this.previewContent = row.content
     },
     // 删除
-    delBylaws(row) {
+    delStandard(row) {
       this.deleteDialogVisible = true
       this.deleteForm.deleteId = row.id
     },
     // 确认删除
     saveDeleteDialog() {
-      deleteBylaws(this.deleteForm).then(res => {
+      deleteStandard(this.deleteForm).then(res => {
         if (res.data.status === 200) {
           this.$message.success(res.msg)
           this.deleteDialogVisible = false
-          this.getBylawsList()
+          this.getStandardList()
         } else {
           this.$message.error(res.msg)
         }

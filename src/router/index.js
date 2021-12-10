@@ -106,6 +106,18 @@ export const constantRoutes = [
         name: 'Branch',
         component: () => import('@/views/Overview/Branch'),
         meta: { title: '分支机构' }
+      },
+      {
+        path: 'Member',
+        name: 'Member',
+        component: () => import('@/views/Overview/Member'),
+        meta: { title: '会员单位' }
+      },
+      {
+        path: 'Standard',
+        name: 'Standard',
+        component: () => import('@/views/Overview/Standard'),
+        meta: { title: '会费标准' }
       }
     ]
   },

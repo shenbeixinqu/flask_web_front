@@ -167,8 +167,8 @@ export default {
         deleteId: ''
       },
       // 文件上传参数
-      // action: 'http://192.168.31.249:5000/cms/fileUpload'
-      action: 'http://waxh.pg024.com/cms/fileUpload'
+      action: 'http://127.0.0.1:5000/cms/fileUpload'
+      // action: 'http://waxh.pg024.com/cms/fileUpload'
       // fileList: []
     }
   },
@@ -223,6 +223,7 @@ export default {
       )
     },
     handleSuccess(response, file, fileList) {
+      console.log('responseeeee', response)
       if (this.addFileForm.fileList.length > 1) {
         this.$message({
           message: '附件个数不超1个',
@@ -231,6 +232,7 @@ export default {
         return false
       } else {
         this.addFileForm.file_dir = response.file_dir
+        console.log('file_dir', this.addFileForm.file_dir)
       }
     },
     // 关闭dialog

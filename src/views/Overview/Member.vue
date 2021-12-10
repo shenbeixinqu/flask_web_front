@@ -7,7 +7,7 @@
       <el-button
         size="mini"
         class="table_btn"
-        @click="addBylaws"
+        @click="addMember"
       >添加</el-button>
       <el-table
         :data="tableData"
@@ -28,6 +28,11 @@
           prop="id"
         />
         <el-table-column
+          label="公司名称"
+          prop="name"
+          align="center"
+        />
+        <el-table-column
           label="添加时间"
           prop="addtime"
           align="center"
@@ -40,15 +45,15 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="editBylaws(scope.row)"
+              @click="editMember(scope.row)"
             >编辑</el-button>
             <el-button
               size="mini"
-              @click="previewBylaws(scope.row)"
+              @click="previewMember(scope.row)"
             >预览</el-button>
             <el-button
               size="mini"
-              @click="delBylaws(scope.row)"
+              @click="delMember(scope.row)"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -59,7 +64,7 @@
         :total="total"
         :page.sync="pn"
         :limit.sync="limit"
-        @pagination="getBylawsList"
+        @pagination="getMemberList"
       />
       <!--添加编辑-->
       <el-dialog
@@ -74,6 +79,21 @@
           label-width="120px"
           class="formItem"
         >
+          <el-form-item label="公司名称" prop="name">
+            <el-input v-model="addForm.name" />
+          </el-form-item>
+          <el-form-item label="logo:">
+            <el-upload
+              class="avatar-uploader"
+              action="http://127.0.0.1:5000/cms/fileUpload"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon" />
+            </el-upload>
+          </el-form-item>
           <el-form-item label="内容:" prop="content">
             <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
           </el-form-item>
@@ -100,7 +120,7 @@
         width="30%"
         center
       >
-        <div class="dialog_text">请确认是否删除所选协会章程</div>
+        <div class="dialog_text">请确认是否删除所选会员单位</div>
         <span slot="footer">
           <el-button size="small" @click="closeDialogVisible('deleteDialogVisible')">取消</el-button>
           <el-button size="small" type="primary" @click="saveDeleteDialog">确认</el-button>
@@ -114,7 +134,7 @@
 import '@/styles/list.scss'
 import '@/styles/table.scss'
 import pagination from '@/components/Pagination'
-import { bylawsList, addBylaws, deleteBylaws } from '@/api/overview'
+import { memberList, addMember, deleteMember } from '@/api/overview'
 import EditorBar from '@/components/WEditor'
 export default {
   components: {
@@ -130,11 +150,15 @@ export default {
       pn: 1,
       total: 0,
       limit: 10,
+      // 上传图片url
+      imageUrl: '',
       addForm: {
         id: '',
+        name: '',
         content: ''
       },
       addRules: {
+        name: [{ required: true, message: '公司名称不能为空' }],
         content: [{ required: true, message: '内容不能为空' }]
       },
       addDialogVisible: false,
@@ -148,15 +172,15 @@ export default {
     }
   },
   created() {
-    this.getBylawsList()
+    this.getMemberList()
   },
   methods: {
-    getBylawsList() {
+    getMemberList() {
       const searchData = {
         limit: this.limit,
         pn: this.pn
       }
-      bylawsList(searchData).then(res => {
+      memberList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
           this.total = res.data.total
@@ -164,29 +188,31 @@ export default {
       })
     },
     // 添加
-    addBylaws() {
-      this.dialogTitle = '协会章程添加'
+    addMember() {
+      this.dialogTitle = '会员单位添加'
       this.addDialogVisible = true
       this.addForm.id = ''
+      this.addForm.name = ''
       this.addForm.content = ''
     },
     // 编辑
-    editBylaws(row) {
-      this.dialogTitle = '协会章程编辑'
+    editMember(row) {
+      this.dialogTitle = '会员单位编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
+      this.addForm.name = row.name
       this.addForm.content = row.content
     },
     // 提交
     addSubmit(formName) {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
-          addBylaws(this.addForm).then(res => {
+          addMember(this.addForm).then(res => {
             if (res.data.status === 200) {
               this.addDialogVisible = false
               this.$message.success(res.msg)
               this.$refs[formName].resetFields()
-              this.getBylawsList()
+              this.getMemberList()
             } else {
               this.$message.error(res.msg)
             }
@@ -195,22 +221,22 @@ export default {
       })
     },
     // 预览
-    previewBylaws(row) {
+    previewMember(row) {
       this.previewDialogVisible = true
       this.previewContent = row.content
     },
     // 删除
-    delBylaws(row) {
+    delMember(row) {
       this.deleteDialogVisible = true
       this.deleteForm.deleteId = row.id
     },
     // 确认删除
     saveDeleteDialog() {
-      deleteBylaws(this.deleteForm).then(res => {
+      deleteMember(this.deleteForm).then(res => {
         if (res.data.status === 200) {
           this.$message.success(res.msg)
           this.deleteDialogVisible = false
-          this.getBylawsList()
+          this.getMemberList()
         } else {
           this.$message.error(res.msg)
         }
@@ -222,12 +248,67 @@ export default {
     },
     change(val) {
       this.addForm.content = val
+    },
+    // 上传图片方法
+    handleAvatarSuccess(res, file) {
+      console.log('res', res)
+      this.imageUrl = URL.createObjectURL(file.raw)
+      console.log('imgUrl', this.imageUrl)
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      //   const isImage = isJPG || isPNG
+      //   console.log('ispng', isImage)
+      //   if (!isImage) {
+      //     this.$message.error('上传LOGO只能是 JPG/PNG 格式!')
+      //   }
+      //   if (!isLt2M) {
+      //     this.$message.error('上传LOGO大小不能超过 2MB!')
+      //   }
+      //   return isImage && isLt2M
+      console.log('ispng', isJPG)
+      if (!isJPG) {
+        this.$message.error('上传LOGO只能是 JPG/PNG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传LOGO大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     }
   }
 }
 </script>
 
 <style scoped>
+    /**上传图片样式**/
+   .avatar-uploader{
+    border: 1px dashed #d9d9d9;
+    width: 100px;
+    height: 100px;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+  }
+  .avatar {
+    width: 100px;
+    height: 100px;
+    display: block;
+  }
+
    .dialog_text {
         color: red;
         font-size: 18px;
