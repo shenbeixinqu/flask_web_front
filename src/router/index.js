@@ -109,7 +109,7 @@ export const constantRoutes = [
       },
       {
         path: 'Member',
-        name: 'Member',
+        name: 'MemberCompany',
         component: () => import('@/views/Overview/Member'),
         meta: { title: '会员单位' }
       },

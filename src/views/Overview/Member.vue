@@ -33,6 +33,19 @@
           align="center"
         />
         <el-table-column
+          label="logo"
+          prop="logoUrl"
+          align="center"
+        >
+          <template #default="{ row }">
+            <el-image
+              v-if="row.logoUrl"
+              class="logoImage"
+              :src="row.logoUrl"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column
           label="添加时间"
           prop="addtime"
           align="center"
@@ -82,7 +95,7 @@
           <el-form-item label="公司名称" prop="name">
             <el-input v-model="addForm.name" />
           </el-form-item>
-          <el-form-item label="logo:">
+          <el-form-item label="logo:" prop="logo">
             <el-upload
               class="avatar-uploader"
               action="http://127.0.0.1:5000/cms/fileUpload"
@@ -93,6 +106,7 @@
               <img v-if="imageUrl" :src="imageUrl" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
+            <el-input v-if="inputShow" v-model="addForm.logoUrl" />
           </el-form-item>
           <el-form-item label="内容:" prop="content">
             <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
@@ -143,6 +157,7 @@ export default {
   },
   data() {
     return {
+      inputShow: false,
       isClear: false,
       tableData: [],
 
@@ -155,11 +170,13 @@ export default {
       addForm: {
         id: '',
         name: '',
-        content: ''
+        content: '',
+        logoUrl: ''
       },
       addRules: {
         name: [{ required: true, message: '公司名称不能为空' }],
-        content: [{ required: true, message: '内容不能为空' }]
+        content: [{ required: true, message: '内容不能为空' }],
+        logo: [{ required: true, message: 'logo不能为空' }]
       },
       addDialogVisible: false,
       previewDialogVisible: false,
@@ -194,6 +211,7 @@ export default {
       this.addForm.id = ''
       this.addForm.name = ''
       this.addForm.content = ''
+      this.addForm.logoUrl = ''
     },
     // 编辑
     editMember(row) {
@@ -202,6 +220,7 @@ export default {
       this.addForm.id = row.id
       this.addForm.name = row.name
       this.addForm.content = row.content
+      // this.addForm.logoUrl = row.logoUrl
     },
     // 提交
     addSubmit(formName) {
@@ -253,29 +272,30 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log('res', res)
       this.imageUrl = URL.createObjectURL(file.raw)
+      this.addForm.logoUrl = res.file_dir
       console.log('imgUrl', this.imageUrl)
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
-      //   const isImage = isJPG || isPNG
-      //   console.log('ispng', isImage)
-      //   if (!isImage) {
-      //     this.$message.error('上传LOGO只能是 JPG/PNG 格式!')
-      //   }
-      //   if (!isLt2M) {
-      //     this.$message.error('上传LOGO大小不能超过 2MB!')
-      //   }
-      //   return isImage && isLt2M
-      console.log('ispng', isJPG)
-      if (!isJPG) {
+      const isImage = isJPG || isPNG
+      console.log('ispng', isImage)
+      if (!isImage) {
         this.$message.error('上传LOGO只能是 JPG/PNG 格式!')
       }
       if (!isLt2M) {
         this.$message.error('上传LOGO大小不能超过 2MB!')
       }
-      return isJPG && isLt2M
+      return isImage && isLt2M
+      // console.log('ispng', isJPG)
+      // if (!isJPG) {
+      //   this.$message.error('上传LOGO只能是 JPG/PNG 格式!')
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传LOGO大小不能超过 2MB!')
+      // }
+      // return isJPG && isLt2M
     }
   }
 }
@@ -308,8 +328,12 @@ export default {
     height: 100px;
     display: block;
   }
-
-   .dialog_text {
+  .logoImage {
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+  }
+  .dialog_text {
         color: red;
         font-size: 18px;
         text-align: center;
