@@ -7,7 +7,7 @@
       <el-button
         size="mini"
         class="table_btn"
-        @click="addMember"
+        @click="addDirector"
       >添加</el-button>
       <el-table
         :data="tableData"
@@ -46,6 +46,10 @@
           </template>
         </el-table-column>
         <el-table-column
+          label="公司简介"
+          prop="desc"
+        />
+        <el-table-column
           label="添加时间"
           prop="addtime"
           align="center"
@@ -58,15 +62,15 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="editMember(scope.row)"
+              @click="editDirector(scope.row)"
             >编辑</el-button>
             <el-button
               size="mini"
-              @click="previewMember(scope.row)"
+              @click="previewDirector(scope.row)"
             >预览</el-button>
             <el-button
               size="mini"
-              @click="delMember(scope.row)"
+              @click="delDirector(scope.row)"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -77,7 +81,7 @@
         :total="total"
         :page.sync="pn"
         :limit.sync="limit"
-        @pagination="getMemberList"
+        @pagination="getDirectorList"
       />
       <!--添加编辑-->
       <el-dialog
@@ -107,6 +111,9 @@
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
           </el-form-item>
+          <el-form-item label="公司简介" prop="desc">
+            <el-input v-model="addForm.desc" type="textarea" />
+          </el-form-item>
           <el-form-item label="内容:" prop="content">
             <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
           </el-form-item>
@@ -133,7 +140,7 @@
         width="30%"
         center
       >
-        <div class="dialog_text">请确认是否删除所选会员单位</div>
+        <div class="dialog_text">请确认是否删除所选理事单位</div>
         <span slot="footer">
           <el-button size="small" @click="closeDialogVisible('deleteDialogVisible')">取消</el-button>
           <el-button size="small" type="primary" @click="saveDeleteDialog">确认</el-button>
@@ -147,7 +154,7 @@
 import '@/styles/list.scss'
 import '@/styles/table.scss'
 import pagination from '@/components/Pagination'
-import { memberList, addMember, deleteMember } from '@/api/overview'
+import { directorList, addDirector, deleteDirector } from '@/api/overview'
 import EditorBar from '@/components/WEditor'
 export default {
   components: {
@@ -167,11 +174,13 @@ export default {
         id: '',
         name: '',
         content: '',
+        desc: '',
         logoUrl: ''
       },
       addRules: {
         name: [{ required: true, message: '公司名称不能为空' }],
         content: [{ required: true, message: '内容不能为空' }],
+        desc: [{ required: true, message: '公司简介不能为空' }],
         logoUrl: [{ required: true, message: 'logo不能为空', trigger: 'change' }]
       },
       addDialogVisible: false,
@@ -185,15 +194,15 @@ export default {
     }
   },
   created() {
-    this.getMemberList()
+    this.getDirectorList()
   },
   methods: {
-    getMemberList() {
+    getDirectorList() {
       const searchData = {
         limit: this.limit,
         pn: this.pn
       }
-      memberList(searchData).then(res => {
+      directorList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
           this.total = res.data.total
@@ -201,35 +210,36 @@ export default {
       })
     },
     // 添加
-    addMember() {
-      this.dialogTitle = '会员单位添加'
+    addDirector() {
+      this.dialogTitle = '理事单位添加'
       this.addDialogVisible = true
       this.addForm.id = ''
       this.addForm.name = ''
       this.addForm.content = ''
       this.addForm.logoUrl = ''
-      this.imageUrl = ''
+      this.addForm.desc = ''
     },
     // 编辑
-    editMember(row) {
+    editDirector(row) {
       console.log('editrow', row)
-      this.dialogTitle = '会员单位编辑'
+      this.dialogTitle = '理事单位编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
       this.addForm.name = row.name
       this.addForm.content = row.content
       this.addForm.logoUrl = row.logoUrl
+      this.addForm.desc = row.desc
     },
     // 提交
     addSubmit(formName) {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
-          addMember(this.addForm).then(res => {
+          addDirector(this.addForm).then(res => {
             if (res.data.status === 200) {
               this.addDialogVisible = false
               this.$message.success(res.msg)
               this.$refs['addForm'].resetFields()
-              this.getMemberList()
+              this.getDirectorList()
             } else {
               this.$message.error(res.msg)
             }
@@ -238,22 +248,22 @@ export default {
       })
     },
     // 预览
-    previewMember(row) {
+    previewDirector(row) {
       this.previewDialogVisible = true
       this.previewContent = row.content
     },
     // 删除
-    delMember(row) {
+    delDirector(row) {
       this.deleteDialogVisible = true
       this.deleteForm.deleteId = row.id
     },
     // 确认删除
     saveDeleteDialog() {
-      deleteMember(this.deleteForm).then(res => {
+      deleteDirector(this.deleteForm).then(res => {
         if (res.data.status === 200) {
           this.$message.success(res.msg)
           this.deleteDialogVisible = false
-          this.getMemberList()
+          this.getDirectorList()
         } else {
           this.$message.error(res.msg)
         }

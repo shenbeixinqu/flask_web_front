@@ -108,16 +108,42 @@ export const constantRoutes = [
         meta: { title: '分支机构' }
       },
       {
+        path: 'Director',
+        name: 'DirectorCompany',
+        component: () => import('@/views/Overview/Director'),
+        meta: { title: '理事单位' }
+      },
+      {
         path: 'Member',
         name: 'MemberCompany',
         component: () => import('@/views/Overview/Member'),
         meta: { title: '会员单位' }
       },
       {
+        path: 'Support',
+        name: 'SupportCompany',
+        component: () => import('@/views/Overview/Support'),
+        meta: { title: '支撑单位' }
+      },
+      {
         path: 'Standard',
         name: 'Standard',
         component: () => import('@/views/Overview/Standard'),
         meta: { title: '会费标准' }
+      }
+    ]
+  },
+  {
+    path: '/Task',
+    component: Layout,
+    name: 'Task',
+    meta: { title: '协会工作' },
+    children: [
+      {
+        path: 'Building',
+        name: 'Building',
+        component: () => import('@/views/Task/Building'),
+        meta: { title: '党建活动' }
       }
     ]
   },

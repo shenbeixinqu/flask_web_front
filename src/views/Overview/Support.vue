@@ -7,7 +7,7 @@
       <el-button
         size="mini"
         class="table_btn"
-        @click="addMember"
+        @click="addSupport"
       >添加</el-button>
       <el-table
         :data="tableData"
@@ -58,15 +58,15 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="editMember(scope.row)"
+              @click="editSupport(scope.row)"
             >编辑</el-button>
             <el-button
               size="mini"
-              @click="previewMember(scope.row)"
+              @click="previewSupport(scope.row)"
             >预览</el-button>
             <el-button
               size="mini"
-              @click="delMember(scope.row)"
+              @click="delSupport(scope.row)"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -77,7 +77,7 @@
         :total="total"
         :page.sync="pn"
         :limit.sync="limit"
-        @pagination="getMemberList"
+        @pagination="getSupportList"
       />
       <!--添加编辑-->
       <el-dialog
@@ -133,7 +133,7 @@
         width="30%"
         center
       >
-        <div class="dialog_text">请确认是否删除所选会员单位</div>
+        <div class="dialog_text">请确认是否删除所选支撑单位</div>
         <span slot="footer">
           <el-button size="small" @click="closeDialogVisible('deleteDialogVisible')">取消</el-button>
           <el-button size="small" type="primary" @click="saveDeleteDialog">确认</el-button>
@@ -147,7 +147,7 @@
 import '@/styles/list.scss'
 import '@/styles/table.scss'
 import pagination from '@/components/Pagination'
-import { memberList, addMember, deleteMember } from '@/api/overview'
+import { supportList, addSupport, deleteSupport } from '@/api/overview'
 import EditorBar from '@/components/WEditor'
 export default {
   components: {
@@ -185,15 +185,15 @@ export default {
     }
   },
   created() {
-    this.getMemberList()
+    this.getSupportList()
   },
   methods: {
-    getMemberList() {
+    getSupportList() {
       const searchData = {
         limit: this.limit,
         pn: this.pn
       }
-      memberList(searchData).then(res => {
+      supportList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
           this.total = res.data.total
@@ -201,19 +201,18 @@ export default {
       })
     },
     // 添加
-    addMember() {
-      this.dialogTitle = '会员单位添加'
+    addSupport() {
+      this.dialogTitle = '支撑单位添加'
       this.addDialogVisible = true
       this.addForm.id = ''
       this.addForm.name = ''
       this.addForm.content = ''
       this.addForm.logoUrl = ''
-      this.imageUrl = ''
     },
     // 编辑
-    editMember(row) {
+    editSupport(row) {
       console.log('editrow', row)
-      this.dialogTitle = '会员单位编辑'
+      this.dialogTitle = '支撑单位编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
       this.addForm.name = row.name
@@ -224,12 +223,12 @@ export default {
     addSubmit(formName) {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
-          addMember(this.addForm).then(res => {
+          addSupport(this.addForm).then(res => {
             if (res.data.status === 200) {
               this.addDialogVisible = false
               this.$message.success(res.msg)
               this.$refs['addForm'].resetFields()
-              this.getMemberList()
+              this.getSupportList()
             } else {
               this.$message.error(res.msg)
             }
@@ -238,22 +237,22 @@ export default {
       })
     },
     // 预览
-    previewMember(row) {
+    previewSupport(row) {
       this.previewDialogVisible = true
       this.previewContent = row.content
     },
     // 删除
-    delMember(row) {
+    delSupport(row) {
       this.deleteDialogVisible = true
       this.deleteForm.deleteId = row.id
     },
     // 确认删除
     saveDeleteDialog() {
-      deleteMember(this.deleteForm).then(res => {
+      deleteSupport(this.deleteForm).then(res => {
         if (res.data.status === 200) {
           this.$message.success(res.msg)
           this.deleteDialogVisible = false
-          this.getMemberList()
+          this.getSupportList()
         } else {
           this.$message.error(res.msg)
         }
