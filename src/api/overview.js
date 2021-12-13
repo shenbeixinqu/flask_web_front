@@ -81,6 +81,33 @@ export function deleteBranch(data) {
   })
 }
 
+// 协会负责人列表
+export function leaderList(data) {
+  return request({
+    url: '/cms/leaderList',
+    method: 'get',
+    params: data
+  })
+}
+
+// 协会负责人添加
+export function addLeader(data) {
+  return request({
+    url: 'cms/addLeader',
+    method: 'post',
+    data
+  })
+}
+
+// 协会负责人删除
+export function deleteLeader(data) {
+  return request({
+    url: 'cms/deleteLeader',
+    method: 'post',
+    data
+  })
+}
+
 // 会费标准列表
 export function standardList(data) {
   return request({

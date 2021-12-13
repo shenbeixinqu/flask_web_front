@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import BasicFunction from '@/views/Task/components'
+import BasicFunction from '@/views/other/components'
 export default {
   components: {
     BasicFunction
   },
   data() {
     return {
-      taskTitle: '党建活动'
+      taskTitle: '通知公告'
     }
   }
 }

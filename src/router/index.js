@@ -108,6 +108,12 @@ export const constantRoutes = [
         meta: { title: '分支机构' }
       },
       {
+        path: 'Leader',
+        name: 'Leader',
+        component: () => import('@/views/Overview/Leader'),
+        meta: { title: '协会负责人' }
+      },
+      {
         path: 'Director',
         name: 'DirectorCompany',
         component: () => import('@/views/Overview/Director'),
@@ -144,6 +150,60 @@ export const constantRoutes = [
         name: 'Building',
         component: () => import('@/views/Task/Building'),
         meta: { title: '党建活动' }
+      },
+      {
+        path: 'Communication',
+        name: 'Communication',
+        component: () => import('@/views/Task/Communication'),
+        meta: { title: '交流活动' }
+      },
+      {
+        path: 'Education',
+        name: 'Education',
+        component: () => import('@/views/Task/Education'),
+        meta: { title: '教育培训' }
+      }
+    ]
+  },
+  {
+    path: '/other',
+    component: Layout,
+    name: '通知公告',
+    meta: { title: '通知公告' },
+    children: [
+      {
+        path: 'Notice',
+        name: 'Notice',
+        component: () => import('@/views/other/Notice'),
+        meta: { title: '通知公告' }
+      }
+    ]
+  },
+  {
+    path: '/Statute',
+    component: Layout,
+    name: 'Statute',
+    meta: { title: '法律法规' },
+    children: [
+      {
+        path: 'Statute',
+        name: 'Statute',
+        component: () => import('@/views/other/Statute'),
+        meta: { title: '法律法规' }
+      }
+    ]
+  },
+  {
+    path: '/Footer',
+    component: Layout,
+    name: 'Footer',
+    meta: { title: '底部信息' },
+    children: [
+      {
+        path: 'Contract',
+        name: 'Contract',
+        component: () => import('@/views/footer/contract'),
+        meta: { title: '底部信息' }
       }
     ]
   },

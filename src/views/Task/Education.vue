@@ -1,5 +1,5 @@
 <template>
-  <basic-function :kind="1" :task-title="taskTitle" />
+  <basic-function :kind="3" :task-title="taskTitle" />
 </template>
 
 <script>
@@ -10,7 +10,7 @@ export default {
   },
   data() {
     return {
-      taskTitle: '党建活动'
+      taskTitle: '教育培训'
     }
   }
 }
