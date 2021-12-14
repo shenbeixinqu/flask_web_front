@@ -7,7 +7,7 @@
       <el-button
         size="mini"
         class="table_btn"
-        @click="addBuilding"
+        @click="addIndustry"
       >添加</el-button>
       <el-table
         :data="tableData"
@@ -80,15 +80,15 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="editBuilding(scope.row)"
+              @click="editIndustry(scope.row)"
             >编辑</el-button>
             <el-button
               size="mini"
-              @click="previewBuilding(scope.row)"
+              @click="previewIndustry(scope.row)"
             >预览</el-button>
             <el-button
               size="mini"
-              @click="delBuilding(scope.row)"
+              @click="delIndustry(scope.row)"
             >删除</el-button>
           </template>
         </el-table-column>
@@ -99,7 +99,7 @@
         :total="total"
         :page.sync="pn"
         :limit.sync="limit"
-        @pagination="getBuildingList"
+        @pagination="getIndustryList"
       />
       <!--添加编辑-->
       <el-dialog
@@ -170,7 +170,7 @@
         width="30%"
         center
       >
-        <div class="dialog_text">请确认是否删除所选{{ taskTitle }}</div>
+        <div class="dialog_text">请确认是否删除所选{{ industryTitle }}</div>
         <span slot="footer">
           <el-button size="small" @click="closeDialogVisible('deleteDialogVisible')">取消</el-button>
           <el-button size="small" type="primary" @click="saveDeleteDialog">确认</el-button>
@@ -184,7 +184,7 @@
 import '@/styles/list.scss'
 import '@/styles/table.scss'
 import pagination from '@/components/Pagination'
-import { buildingList, addBuilding, deleteBuilding } from '@/api/task'
+import { industryList, addIndustry, deleteIndustry } from '@/api/industry'
 import EditorBar from '@/components/WEditor'
 export default {
   components: {
@@ -196,7 +196,7 @@ export default {
       type: Number,
       default: 0
     },
-    taskTitle: {
+    industryTitle: {
       type: String,
       default: ''
     }
@@ -242,18 +242,16 @@ export default {
     }
   },
   created() {
-    this.getBuildingList()
-    console.log('kind', this.kind)
-    console.log('taskTitle', this.taskTitle)
+    this.getIndustryList()
   },
   methods: {
-    getBuildingList() {
+    getIndustryList() {
       const searchData = {
         limit: this.limit,
         pn: this.pn,
         kind: this.kind
       }
-      buildingList(searchData).then(res => {
+      industryList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
           console.log('this.tableData', this.tableData)
@@ -262,8 +260,8 @@ export default {
       })
     },
     // 添加
-    addBuilding() {
-      this.dialogTitle = this.taskTitle + '添加'
+    addIndustry() {
+      this.dialogTitle = this.industryTitle + '添加'
       this.addDialogVisible = true
       this.addForm.id = ''
       this.addForm.name = ''
@@ -272,9 +270,9 @@ export default {
       this.addForm.if_banner = '3'
     },
     // 编辑
-    editBuilding(row) {
+    editIndustry(row) {
       console.log('editrow', row, typeof row.if_banner)
-      this.dialogTitle = this.taskTitle + '编辑'
+      this.dialogTitle = this.industryTitle + '编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
       this.addForm.name = row.name
@@ -288,12 +286,12 @@ export default {
     addSubmit(formName) {
       this.$refs['addForm'].validate((valid) => {
         if (valid) {
-          addBuilding(this.addForm).then(res => {
+          addIndustry(this.addForm).then(res => {
             if (res.data.status === 200) {
               this.addDialogVisible = false
               this.$message.success(res.msg)
               this.$refs['addForm'].resetFields()
-              this.getBuildingList()
+              this.getIndustryList()
             } else {
               this.$message.error(res.msg)
             }
@@ -302,22 +300,22 @@ export default {
       })
     },
     // 预览
-    previewBuilding(row) {
+    previewIndustry(row) {
       this.previewDialogVisible = true
       this.previewContent = row.content
     },
     // 删除
-    delBuilding(row) {
+    delIndustry(row) {
       this.deleteDialogVisible = true
       this.deleteForm.deleteId = row.id
     },
     // 确认删除
     saveDeleteDialog() {
-      deleteBuilding(this.deleteForm).then(res => {
+      deleteIndustry(this.deleteForm).then(res => {
         if (res.data.status === 200) {
           this.$message.success(res.msg)
           this.deleteDialogVisible = false
-          this.getBuildingList()
+          this.getIndustryList()
         } else {
           this.$message.error(res.msg)
         }

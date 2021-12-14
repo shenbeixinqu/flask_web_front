@@ -166,6 +166,38 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/Industry',
+    component: Layout,
+    name: 'industry',
+    meta: { title: '行业动态' },
+    children: [
+      {
+        path: '/hotConcerns',
+        name: 'hotConcerns',
+        component: () => import('@/views/Industry/hotConcerns'),
+        meta: { title: '热点关注' }
+      },
+      {
+        path: '/securityDynamics',
+        name: 'securityDynamics',
+        component: () => import('@/views/Industry/securityDynamics'),
+        meta: { title: '网安动态' }
+      },
+      {
+        path: '/leakRelease',
+        name: 'leakRelease',
+        component: () => import('@/views/Industry/leakRelease'),
+        meta: { title: '漏洞发布' }
+      },
+      {
+        path: '/securityEvent',
+        name: 'securityEvent',
+        component: () => import('@/views/Industry/securityEvent'),
+        meta: { title: '安全事件' }
+      }
+    ]
+  },
+  {
     path: '/other',
     component: Layout,
     name: '通知公告',
