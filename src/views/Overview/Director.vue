@@ -135,7 +135,7 @@
       </el-dialog>
       <!--删除-->
       <el-dialog
-        title="协会简介删除"
+        title="删除"
         :visible.sync="deleteDialogVisible"
         width="30%"
         center

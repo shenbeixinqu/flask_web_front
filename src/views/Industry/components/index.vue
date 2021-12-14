@@ -1,7 +1,26 @@
 <template>
   <div class="dashboard-container">
     <div class="index_header">
-      <div class="index_header_input" style="position:relative" />
+      <div class="index_header_input" style="position:relative">
+        <el-row :gutter="20" style="width:100%">
+          <el-col :span="3">
+            <el-input
+              v-model="kword"
+              size="mini"
+              clearable
+              placeholder="请输入标题"
+            />
+          </el-col>
+          <el-col :span="2">
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-search"
+              @click="getIndustryList('search')"
+            >查询</el-button>
+          </el-col>
+        </el-row>
+      </div>
     </div>
     <div class="app-container">
       <el-button
@@ -215,6 +234,7 @@ export default {
       pn: 1,
       total: 0,
       limit: 10,
+      kword: '',
       addForm: {
         id: '',
         name: '',
@@ -245,11 +265,15 @@ export default {
     this.getIndustryList()
   },
   methods: {
-    getIndustryList() {
+    getIndustryList(type) {
+      if (type === 'search') {
+        this.pn = 1
+      }
       const searchData = {
         limit: this.limit,
         pn: this.pn,
-        kind: this.kind
+        kind: this.kind,
+        kword: this.kword
       }
       industryList(searchData).then(res => {
         if (res.data.status === 200) {

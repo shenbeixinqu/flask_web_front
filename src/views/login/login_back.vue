@@ -33,7 +33,22 @@
           <template #prefix>
             <span><svg-icon icon-class="password" /></span>
           </template>
-        </el-input></el-form-item>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="code">
+        <el-input
+          v-model="loginForm.code"
+          type="text"
+          placeholder="验证码"
+        >
+          <template #prefix>
+            <span><svg-icon icon-class="password" /></span>
+          </template>
+        </el-input>
+        <div class="code" @click="refreshCode">
+          <identify :identify-code="identifyCode" />
+        </div>
+      </el-form-item>
       <div style="float: right; margin-top:20px">
         <el-button
           :loading="loading"
@@ -56,9 +71,22 @@
 </template>
 
 <script>
+import Identify from '@/components/Identify'
 export default {
   name: 'Login',
+  components: {
+    Identify
+  },
   data() {
+    const validateCode = (rule, value, callback) => {
+      if (this.identifyCode !== value) {
+        // this.loginForm.code = ''
+        this.refreshCode()
+        callback(new Error('请输入正确的验证码'))
+      } else {
+        callback()
+      }
+    }
     return {
       loginForm: {
         account: '52',
@@ -67,10 +95,17 @@ export default {
       },
       loginRules: {
         account: [{ required: true, message: '用户名不能为空' }],
-        password: [{ required: true, message: '密码不能为空' }]
+        password: [{ required: true, message: '密码不能为空' }],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { validator: validateCode, trigger: 'blur' }
+        ]
       },
       loading: false,
-      passwordType: 'password'
+      passwordType: 'password',
+      // 验证码相关
+      identifyCode: '',
+      identifyCodes: '1234567890'
     }
   },
   created() {
@@ -112,7 +147,23 @@ export default {
     },
     handleRegister() {
       this.$router.push({ path: '/register' })
+    },
+    // 验证码相关
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min)
+    },
+    refreshCode() {
+      this.identifyCode = ''
+      this.makeCode(this.identifyCodes, 4)
+    },
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[
+          this.randomNum(0, this.identifyCodes.length)
+        ]
+      }
     }
+
   }
 }
 </script>
@@ -138,7 +189,7 @@ export default {
     border-width: 0px;
     left: 430px;
     top: 100px;
-    height: 400px;
+    height: 480px;
     background: inherit;
     background-color: rgba(255, 255, 255, 1);
     border: none;
@@ -191,6 +242,13 @@ export default {
     cursor: pointer;
     user-select: none;
   }
+
+  .code {
+        position: absolute;
+        top: 0px;
+        right: 4px;
+        cursor: pointer;
+      }
 }
 
 </style>
