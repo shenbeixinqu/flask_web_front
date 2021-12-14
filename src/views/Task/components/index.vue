@@ -248,7 +248,6 @@ export default {
       addRules: {
         name: [{ required: true, message: '公司名称不能为空' }],
         content: [{ required: true, message: '内容不能为空' }],
-        reorder: [{ required: true, message: '排序不能为空' }],
         banner_url: [{ required: true, message: '轮播图片不能为空', trigger: 'change' }]
       },
       addDialogVisible: false,
