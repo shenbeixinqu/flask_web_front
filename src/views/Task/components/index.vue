@@ -293,6 +293,7 @@ export default {
       this.addForm.content = ''
       this.addForm.banner_url = ''
       this.addForm.if_banner = '3'
+      this.reorder = ''
     },
     // 编辑
     editBuilding(row) {

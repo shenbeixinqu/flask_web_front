@@ -208,7 +208,6 @@ export default {
       this.addForm.name = ''
       this.addForm.content = ''
       this.addForm.logoUrl = ''
-      this.imageUrl = ''
     },
     // 编辑
     editMember(row) {
