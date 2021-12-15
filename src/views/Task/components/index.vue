@@ -60,7 +60,7 @@
           label="排序"
           prop="reorder"
           align="center"
-          width="80"
+          width="60"
         />
         <el-table-column
           label="轮播图"
@@ -87,9 +87,30 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="添加时间"
-          prop="addtime"
+          label="类型"
+          prop="mold"
           align="center"
+          width="80px"
+        />
+        <el-table-column
+          label="链接"
+          prop="link"
+        />
+        <el-table-column
+          v-if="ifShow"
+          label="文件地址"
+          prop="file_dir"
+        />
+        <el-table-column
+          v-if="ifShow"
+          label="文件名称"
+          prop="file_name"
+        />
+        <el-table-column
+          label="添加时间"
+          prop="adddate"
+          align="center"
+          width="120px"
         />
         <el-table-column
           fixed="right"
@@ -136,6 +157,29 @@
           <el-form-item label="标题:" prop="name">
             <el-input v-model="addForm.name" />
           </el-form-item>
+          <template v-if="kind == 4">
+            <el-form-item label="类型:">
+              <el-radio-group v-model="addForm.mold">
+                <el-radio label="1">链接</el-radio>
+                <el-radio label="2">文件</el-radio>
+              </el-radio-group>
+            </el-form-item>
+            <el-form-item v-if="addForm.mold === '1'" label="链接:">
+              <el-input v-model="addForm.link" />
+            </el-form-item>
+            <el-form-item v-if="addForm.mold === '2'" label="文件:">
+              <el-upload
+                ref="upload"
+                :action="action"
+                :file-list="addForm.fileList"
+                :on-success="handleSuccess"
+                :on-change="handleChange"
+                :on-exceed="handleExceed"
+              >
+                <el-button size="small">上传</el-button>
+              </el-upload>
+            </el-form-item>
+          </template>
           <el-form-item label="排序:" prop="reorder">
             <el-input v-model="addForm.reorder" />
           </el-form-item>
@@ -243,6 +287,11 @@ export default {
         if_banner: '',
         content: '',
         banner_url: '',
+        mold: '',
+        link: '',
+        fileList: [],
+        file_dir: '',
+        file_name: '',
         kind: this.kind
       },
       addRules: {
@@ -257,7 +306,8 @@ export default {
       deleteForm: {
         deleteId: ''
       },
-      dialogTitle: ''
+      dialogTitle: '',
+      action: 'http://127.0.0.1:5000/cms/fileUpload'
     }
   },
   created() {
@@ -293,7 +343,12 @@ export default {
       this.addForm.content = ''
       this.addForm.banner_url = ''
       this.addForm.if_banner = '3'
-      this.reorder = ''
+      this.addForm.mold = ''
+      this.addForm.link = ''
+      this.addForm.file_dir = ''
+      this.addForm.reorder = ''
+      this.addForm.file_dir = ''
+      this.addForm.fileList = []
     },
     // 编辑
     editBuilding(row) {
@@ -307,6 +362,10 @@ export default {
       this.addForm.content = row.content
       this.addForm.if_banner = String(row.if_banner)
       this.addForm.banner_url = row.banner_url
+      this.addForm.mold = row.mold
+      this.addForm.link = row.link
+      this.addForm.file_dir = row.file_dir
+      this.addForm.fileList = [{ name: `${row.file_name}` }]
     },
     // 提交
     addSubmit(formName) {
@@ -372,6 +431,30 @@ export default {
         this.$message.error('上传LOGO大小不能超过 2MB!')
       }
       return isImage && isLt2M
+    },
+    // 文件上传
+    handleChange(file, fileList) {
+      console.log('fileList', fileList, fileList[0]['name'])
+      this.addForm.file_name = fileList[0]['name']
+      this.addForm.fileList = fileList
+    },
+    handleExceed(files) {
+      this.$message.warning(
+        `当前限制选择1个文件, 本次选择了${files.length}个文件`
+      )
+    },
+    handleSuccess(response, file, fileList) {
+      console.log('responseeeee', response)
+      if (this.addForm.fileList.length > 1) {
+        this.$message({
+          message: '附件个数不超1个',
+          type: 'warning'
+        })
+        return false
+      } else {
+        this.addForm.file_dir = response.file_dir
+        console.log('file_dir', this.addForm.file_dir)
+      }
     }
   }
 }

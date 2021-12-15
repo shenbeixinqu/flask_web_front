@@ -162,6 +162,12 @@ export const constantRoutes = [
         name: 'Education',
         component: () => import('@/views/Task/Education'),
         meta: { title: '教育培训' }
+      },
+      {
+        path: 'Service',
+        name: 'Service',
+        component: () => import('@/views/Task/Services'),
+        meta: { title: '安全服务' }
       }
     ]
   },
