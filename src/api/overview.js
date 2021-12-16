@@ -27,32 +27,6 @@ export function deleteIntroduction(data) {
   })
 }
 
-// 协会章程列表
-export function bylawsList(data) {
-  return request({
-    url: '/cms/bylawsList',
-    method: 'get',
-    params: data
-  })
-}
-
-// 协会章程添加
-export function addBylaws(data) {
-  return request({
-    url: 'cms/addBylaws',
-    method: 'post',
-    data
-  })
-}
-
-// 协会章程删除
-export function deleteBylaws(data) {
-  return request({
-    url: 'cms/deleteBylaws',
-    method: 'post',
-    data
-  })
-}
 
 // 分支机构列表
 export function branchList(data) {
@@ -103,33 +77,6 @@ export function addLeader(data) {
 export function deleteLeader(data) {
   return request({
     url: 'cms/deleteLeader',
-    method: 'post',
-    data
-  })
-}
-
-// 会费标准列表
-export function standardList(data) {
-  return request({
-    url: '/cms/standardList',
-    method: 'get',
-    params: data
-  })
-}
-
-// 协会简介添加
-export function addStandard(data) {
-  return request({
-    url: 'cms/addStandard',
-    method: 'post',
-    data
-  })
-}
-
-// 协会简介删除
-export function deleteStandard(data) {
-  return request({
-    url: 'cms/deleteStandard',
     method: 'post',
     data
   })
