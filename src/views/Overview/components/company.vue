@@ -27,13 +27,11 @@
           label="序号"
           prop="id"
         />
-        <template v-if=" kind != 1">
-          <el-table-column
-            label="公司名称"
-            prop="name"
-            align="center"
-          />
-        </template>
+        <el-table-column
+          label="公司名称"
+          prop="name"
+          align="center"
+        />
         <template v-if=" kind == 1">
           <el-table-column
             label="地址"
@@ -112,11 +110,9 @@
           label-width="120px"
           class="formItem"
         >
-          <template v-if="kind != 1">
-            <el-form-item label="公司名称" prop="name">
-              <el-input v-model="addForm.name" />
-            </el-form-item>
-          </template>
+          <el-form-item label="公司名称" prop="name">
+            <el-input v-model="addForm.name" />
+          </el-form-item>
           <template v-if="kind == 1">
             <el-form-item label="地址" prop="address">
               <el-input v-model="addForm.address" />
