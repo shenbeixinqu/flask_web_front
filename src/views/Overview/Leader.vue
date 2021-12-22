@@ -191,6 +191,7 @@ export default {
         name: [{ required: true, message: '姓名不能为空' }],
         duty: [{ required: true, message: '职位不能为空' }],
         content: [{ required: true, message: '内容不能为空' }],
+        company: [{ required: true, message: '工作单位不能为空' }],
         photo: [{ required: true, message: 'photo不能为空', trigger: 'change' }]
       },
       addDialogVisible: false,

@@ -86,16 +86,18 @@
             />
           </template>
         </el-table-column>
-        <el-table-column
-          label="类型"
-          prop="mold"
-          align="center"
-          width="80px"
-        />
-        <el-table-column
-          label="链接"
-          prop="link"
-        />
+        <template v-if="kind == 4">
+          <el-table-column
+            label="类型"
+            prop="mold"
+            align="center"
+            width="80px"
+          />
+          <el-table-column
+            label="链接"
+            prop="link"
+          />
+        </template>
         <el-table-column
           v-if="ifShow"
           label="文件地址"
