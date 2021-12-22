@@ -62,30 +62,33 @@
           align="center"
           width="60"
         />
-        <el-table-column
-          label="轮播图"
-          prop="if_banner"
-          align="center"
-        >
-          <template #default="{ row }">
-            <span v-for="(item, index) in bannerOptions" :key="index">
-              {{ row.if_banner == item.value ? item.lable : '' }}
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="轮播图片"
-          prop="banner_url"
-          align="center"
-        >
-          <template #default="{ row }">
-            <el-image
-              v-if="row.banner_url"
-              class="logoImage"
-              :src="row.banner_url"
-            />
-          </template>
-        </el-table-column>
+        <template v-if="kind != 4">
+          <el-table-column
+            label="轮播图"
+            prop="if_banner"
+            align="center"
+          >
+            <template #default="{ row }">
+              <span v-for="(item, index) in bannerOptions" :key="index">
+                {{ row.if_banner == item.value ? item.lable : '' }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="轮播图片"
+            prop="banner_url"
+            align="center"
+          >
+            <template #default="{ row }">
+              <el-image
+                v-if="row.banner_url"
+                class="logoImage"
+                :src="row.banner_url"
+              />
+            </template>
+          </el-table-column>
+        </template>
+
         <template v-if="kind == 4">
           <el-table-column
             label="类型"
@@ -107,6 +110,11 @@
           v-if="ifShow"
           label="文件名称"
           prop="file_name"
+        />
+        <el-table-column
+          v-if="ifShow"
+          label="简介"
+          prop="desc"
         />
         <el-table-column
           label="添加时间"
@@ -192,26 +200,34 @@
               inactive-color="#f0eaea"
             />
           </el-form-item>
-          <el-form-item label="是否作为轮播图:" prop="if_banner">
-            <el-radio v-model="addForm.if_banner" label="1">通栏</el-radio>
-            <el-radio v-model="addForm.if_banner" label="2">半通栏</el-radio>
-            <el-radio v-model="addForm.if_banner" label="3">否</el-radio>
-          </el-form-item>
-          <el-form-item v-if="addForm.if_banner != 3" label="轮播图片:" prop="banner_url">
-            <el-upload
-              class="avatar-uploader"
-              action="http://127.0.0.1:5000/cms/fileUpload"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="addForm.banner_url" :src="addForm.banner_url" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon" />
-            </el-upload>
-          </el-form-item>
-          <el-form-item label="内容:" prop="content">
-            <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
-          </el-form-item>
+          <template v-if="kind != 4">
+            <el-form-item label="是否作为轮播图:" prop="if_banner">
+              <el-radio v-model="addForm.if_banner" label="1">通栏</el-radio>
+              <el-radio v-model="addForm.if_banner" label="2">半通栏</el-radio>
+              <el-radio v-model="addForm.if_banner" label="3">否</el-radio>
+            </el-form-item>
+            <el-form-item v-if="addForm.if_banner != 3" label="轮播图片:" prop="banner_url">
+              <el-upload
+                class="avatar-uploader"
+                action="http://127.0.0.1:5000/cms/fileUpload"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload"
+              >
+                <img v-if="addForm.banner_url" :src="addForm.banner_url" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon" />
+              </el-upload>
+            </el-form-item>
+            <el-form-item label="内容:" prop="content">
+              <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
+            </el-form-item>
+          </template>
+          <template v-if="kind == 4">
+            <el-form-item label="公司简介" prop="desc">
+              <el-input v-model="addForm.desc" type="textarea" />
+            </el-form-item>
+          </template>
+
         </el-form>
         <span slot="footer">
           <el-button size="small" type="primary" @click="addSubmit('addForm')">提交</el-button>
@@ -294,6 +310,7 @@ export default {
         fileList: [],
         file_dir: '',
         file_name: '',
+        desc: '',
         kind: this.kind
       },
       addRules: {
@@ -347,6 +364,7 @@ export default {
       this.addForm.if_banner = '3'
       this.addForm.mold = ''
       this.addForm.link = ''
+      this.addForm.desc = ''
       this.addForm.file_dir = ''
       this.addForm.reorder = ''
       this.addForm.file_dir = ''
@@ -366,6 +384,7 @@ export default {
       this.addForm.banner_url = row.banner_url
       this.addForm.mold = row.mold
       this.addForm.link = row.link
+      this.addForm.desc = row.desc
       this.addForm.file_dir = row.file_dir
       this.addForm.fileList = [{ name: `${row.file_name}` }]
     },
@@ -423,14 +442,14 @@ export default {
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 7
       const isImage = isJPG || isPNG
       console.log('ispng', isImage)
       if (!isImage) {
-        this.$message.error('上传LOGO只能是 JPG/PNG 格式!')
+        this.$message.error('上传图片只能是 JPG/PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传LOGO大小不能超过 2MB!')
+        this.$message.error('上传图片大小不能超过 7MB!')
       }
       return isImage && isLt2M
     },
