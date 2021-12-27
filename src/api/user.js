@@ -33,3 +33,31 @@ export function logout(token) {
     params: { token }
   })
 }
+
+// 管理员列表
+export function userList(data) {
+  return request({
+    url: '/cms/userList',
+    method: 'get',
+    params: data
+  })
+}
+
+// 管理员添加
+export function addUser(data) {
+  return request({
+    url: 'cms/addUser',
+    method: 'post',
+    data
+  })
+}
+
+// 管理员删除
+export function deleteUser(data) {
+  return request({
+    url: 'cms/deleteUser',
+    method: 'post',
+    data
+  })
+}
+
