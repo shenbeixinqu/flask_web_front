@@ -70,6 +70,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/authority',
+    component: Layout,
+    name: '权限管理',
+    meta: { title: '权限管理' },
+    children: [
+      {
+        path: 'Authority',
+        name: 'Authority',
+        component: () => import('@/views/authority/index'),
+        meta: { title: '权限管理' }
+      }
+    ]
+  },
+  {
     path: '/association',
     component: Layout,
     name: '协会在线',
