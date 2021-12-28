@@ -7,3 +7,11 @@ export function getMemberList(data) {
     params: data
   })
 }
+
+export function memberStatus(data) {
+  return request({
+    url: '/cms/memberStatus',
+    method: 'get',
+    params: data
+  })
+}

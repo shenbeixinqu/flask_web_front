@@ -56,6 +56,35 @@
           prop="phone"
           align="center"
         />
+        <el-table-column
+          label="当前状态"
+          prop="status"
+          align="center"
+        >
+          <template #default="{row}">
+            <el-tag v-if="row.status_val == 1" type="success">{{ row.status }}</el-tag>
+            <el-tag v-else type="danger">{{ row.status }}</el-tag>
+
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <el-button
+              v-if="scope.row.status_val == 1"
+              size="mini"
+              @click="changeStatus(scope.row, 0)"
+            >移除</el-button>
+            <el-button
+              v-else
+              size="mini"
+              @click="changeStatus(scope.row, 1)"
+            >移入</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <pagination
         v-show="total > 0"
@@ -73,7 +102,7 @@
 import '@/styles/list.scss'
 import '@/styles/table.scss'
 import pagination from '@/components/Pagination'
-import { getMemberList } from '@/api/member'
+import { getMemberList, memberStatus } from '@/api/member'
 export default {
   components: {
     pagination
@@ -105,6 +134,18 @@ export default {
         if (res.data.status === 200) {
           this.tableData = res.data.data
           this.total = res.data.total
+        }
+      })
+    },
+    changeStatus(row, params) {
+      console.log('row', row, 'params', params)
+      const memberData = {
+        id: row.id,
+        kind: params
+      }
+      memberStatus(memberData).then(res => {
+        if (res.data.status === 200) {
+          this.getList()
         }
       })
     }
