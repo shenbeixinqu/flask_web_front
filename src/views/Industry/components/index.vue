@@ -357,13 +357,13 @@ export default {
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
       const isPNG = file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 7
+      const isLt2M = file.size / 1024 / 1024 < 20
       const isImage = isJPG || isPNG
       if (!isImage) {
         this.$message.error('上传图片只能是 JPG/PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传图片大小不能超过 7MB!')
+        this.$message.error('上传图片大小不能超过 20MB!')
       }
       return isImage && isLt2M
     }
