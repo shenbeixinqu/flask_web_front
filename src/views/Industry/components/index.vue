@@ -277,7 +277,6 @@ export default {
       industryList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
-          console.log('this.tableData', this.tableData)
           this.total = res.data.total
         }
       })
@@ -295,7 +294,6 @@ export default {
     },
     // 编辑
     editIndustry(row) {
-      console.log('editrow', row, typeof row.if_banner)
       this.dialogTitle = this.industryTitle + '编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
@@ -354,7 +352,6 @@ export default {
     },
     // 上传图片方法
     handleAvatarSuccess(res, file) {
-      console.log('res', res)
       this.addForm.banner_url = res.file_dir
     },
     beforeAvatarUpload(file) {
@@ -362,7 +359,6 @@ export default {
       const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 7
       const isImage = isJPG || isPNG
-      console.log('ispng', isImage)
       if (!isImage) {
         this.$message.error('上传图片只能是 JPG/PNG 格式!')
       }

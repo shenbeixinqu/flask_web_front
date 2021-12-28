@@ -267,7 +267,6 @@ export default {
     },
     // 编辑
     editMember(row) {
-      console.log('editrow', row)
       this.dialogTitle = this.companyTitle + '编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
@@ -326,7 +325,6 @@ export default {
     },
     // 上传图片方法
     handleAvatarSuccess(res, file) {
-      console.log('res', res)
       this.addForm.logoUrl = res.file_dir
     },
     beforeAvatarUpload(file) {
@@ -334,7 +332,6 @@ export default {
       const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 7
       const isImage = isJPG || isPNG
-      console.log('ispng', isImage)
       if (!isImage) {
         this.$message.error('上传图片只能是 JPG/PNG 格式!')
       }

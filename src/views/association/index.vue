@@ -138,7 +138,6 @@ export default {
       })
     },
     changeStatus(row, params) {
-      console.log('row', row, 'params', params)
       const memberData = {
         id: row.id,
         kind: params

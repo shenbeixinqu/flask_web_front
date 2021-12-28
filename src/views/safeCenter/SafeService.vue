@@ -223,7 +223,6 @@ export default {
       )
     },
     handleSuccess(response, file, fileList) {
-      console.log('responseeeee', response)
       if (this.addFileForm.fileList.length > 1) {
         this.$message({
           message: '附件个数不超1个',
@@ -232,7 +231,6 @@ export default {
         return false
       } else {
         this.addFileForm.file_dir = response.file_dir
-        console.log('file_dir', this.addFileForm.file_dir)
       }
     },
     // 关闭dialog

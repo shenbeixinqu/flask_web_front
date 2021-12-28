@@ -90,7 +90,6 @@ export default {
       this.$refs.registerForm.validate(async(valid) => {
         if (valid) {
           const { msg } = await register(this.registerForm)
-          console.log('resg_data', msg)
           this.$message.success(msg)
         }
       })

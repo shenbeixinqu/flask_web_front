@@ -205,7 +205,6 @@ export default {
     },
     // 编辑
     editFooter(row) {
-      console.log('editrow', row)
       this.dialogTitle = '底部信息编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
@@ -260,7 +259,6 @@ export default {
     },
     // 上传图片方法
     handleAvatarSuccess(res, file) {
-      console.log('res', res)
       this.addForm.code = res.file_dir
     },
     beforeAvatarUpload(file) {
@@ -268,7 +266,6 @@ export default {
       const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
       const isImage = isJPG || isPNG
-      console.log('ispng', isImage)
       if (!isImage) {
         this.$message.error('上传二维码只能是 JPG/PNG 格式!')
       }

@@ -331,8 +331,6 @@ export default {
   },
   created() {
     this.getBuildingList()
-    console.log('kind', this.kind)
-    console.log('taskTitle', this.taskTitle)
   },
   methods: {
     getBuildingList(type) {
@@ -348,7 +346,6 @@ export default {
       buildingList(searchData).then(res => {
         if (res.data.status === 200) {
           this.tableData = res.data.data
-          console.log('this.tableData', this.tableData)
           this.total = res.data.total
         }
       })
@@ -372,7 +369,6 @@ export default {
     },
     // 编辑
     editBuilding(row) {
-      console.log('editrow', row, typeof row.if_banner)
       this.dialogTitle = this.taskTitle + '编辑'
       this.addDialogVisible = true
       this.addForm.id = row.id
@@ -436,7 +432,6 @@ export default {
     },
     // 上传图片方法
     handleAvatarSuccess(res, file) {
-      console.log('res', res)
       this.addForm.banner_url = res.file_dir
     },
     beforeAvatarUpload(file) {
@@ -444,7 +439,6 @@ export default {
       const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 7
       const isImage = isJPG || isPNG
-      console.log('ispng', isImage)
       if (!isImage) {
         this.$message.error('上传图片只能是 JPG/PNG 格式!')
       }
@@ -455,7 +449,6 @@ export default {
     },
     // 文件上传
     handleChange(file, fileList) {
-      console.log('fileList', fileList, fileList[0]['name'])
       this.addForm.file_name = fileList[0]['name']
       this.addForm.fileList = fileList
     },
@@ -465,7 +458,6 @@ export default {
       )
     },
     handleSuccess(response, file, fileList) {
-      console.log('responseeeee', response)
       if (this.addForm.fileList.length > 1) {
         this.$message({
           message: '附件个数不超1个',
@@ -474,7 +466,6 @@ export default {
         return false
       } else {
         this.addForm.file_dir = response.file_dir
-        console.log('file_dir', this.addForm.file_dir)
       }
     }
   }
