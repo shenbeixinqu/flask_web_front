@@ -22,6 +22,12 @@
             <span><svg-icon icon-class="user" /></span>
           </template>
         </el-input>
+        <el-button
+          type="primary"
+          size="mini"
+          style="text-align:right"
+          @click="get_code"
+        >获取验证码</el-button>
       </el-form-item>
       <el-form-item prop="password">
         <el-input
@@ -58,12 +64,6 @@
         >
           登录
         </el-button>
-        <el-button
-          size="small"
-          @click.native.prevent="handleRegister"
-        >
-          注册
-        </el-button>
       </div>
 
     </el-form>
@@ -72,6 +72,7 @@
 
 <script>
 import Identify from '@/components/Identify'
+import { getCode } from '@/api/login'
 export default {
   name: 'Login',
   components: {
@@ -162,6 +163,14 @@ export default {
           this.randomNum(0, this.identifyCodes.length)
         ]
       }
+    },
+    get_code() {
+      const searchData = {
+        account: this.loginForm.account
+      }
+      getCode(searchData).then(res => {
+        console.log('res', res)
+      })
     }
 
   }
