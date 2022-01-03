@@ -14,12 +14,12 @@
         <el-input
           ref="account"
           v-model="loginForm.account"
-          placeholder="用户名"
+          placeholder="手机号"
           name="account"
           type="text"
         >
           <template #prefix>
-            <span><svg-icon icon-class="user" /></span>
+            <span><svg-icon icon-class="phone" /></span>
           </template>
         </el-input>
         <el-button
@@ -34,10 +34,10 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="密码"
+          placeholder="短信验证码"
         >
           <template #prefix>
-            <span><svg-icon icon-class="password" /></span>
+            <span><svg-icon icon-class="mobile-code" /></span>
           </template>
         </el-input>
       </el-form-item>
@@ -48,11 +48,12 @@
           placeholder="验证码"
         >
           <template #prefix>
-            <span><svg-icon icon-class="password" /></span>
+            <span><svg-icon icon-class="code" /></span>
           </template>
         </el-input>
-        <div class="code" @click="refreshCode">
-          <identify :identify-code="identifyCode" />
+        <div class="code" @click="refreshCode2(4)">
+          <!-- <identify :identify-code="identifyCode" /> -->
+          <div class="check_code">{{ identifyCode }}</div>
         </div>
       </el-form-item>
       <div style="float: right; margin-top:20px">
@@ -71,32 +72,38 @@
 </template>
 
 <script>
-import Identify from '@/components/Identify'
 import { getCode } from '@/api/login'
 export default {
   name: 'Login',
-  components: {
-    Identify
-  },
   data() {
     const validateCode = (rule, value, callback) => {
       if (this.identifyCode !== value) {
         // this.loginForm.code = ''
-        this.refreshCode()
+        this.refreshCode2(4)
         callback(new Error('请输入正确的验证码'))
+      } else {
+        callback()
+      }
+    }
+    const validateMobileCode = (rule, value, callback) => {
+      if (this.mobile_code !== value) {
+        callback(new Error('请输入正确的短信验证码'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        account: '52',
-        password: '12345678',
+        account: '',
+        password: '',
         token: ''
       },
       loginRules: {
-        account: [{ required: true, message: '用户名不能为空' }],
-        password: [{ required: true, message: '密码不能为空' }],
+        account: [{ required: true, message: '手机号不能为空' }],
+        password: [
+          { required: true, message: '短信验证码不能为空' },
+          { validator: validateMobileCode, trigger: 'blur' }
+        ],
         code: [
           { required: true, message: '请输入验证码', trigger: 'blur' },
           { validator: validateCode, trigger: 'blur' }
@@ -106,10 +113,12 @@ export default {
       passwordType: 'password',
       // 验证码相关
       identifyCode: '',
-      identifyCodes: '1234567890'
+      identifyCodes: '1234567890',
+      mobile_code: ''
     }
   },
   created() {
+    this.refreshCode2(4)
     var token = this.$route.query.token
     if (token) {
       const _this = this
@@ -157,6 +166,20 @@ export default {
       this.identifyCode = ''
       this.makeCode(this.identifyCodes, 4)
     },
+    refreshCode2(length) {
+      // 生成验证码的方法
+      var code = ''
+      var codeLength = parseInt(length) // 验证码的长度
+      var codeChars = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+      // 循环组成验证码的字符串
+      for (var i = 0; i < codeLength; i++) {
+        // 获取随机验证码下标
+        var charNum = Math.floor(Math.random() * 36)
+        // 组合成指定字符验证码
+        code += codeChars[charNum]
+      }
+      this.identifyCode = code
+    },
     makeCode(o, l) {
       for (let i = 0; i < l; i++) {
         this.identifyCode += this.identifyCodes[
@@ -170,6 +193,7 @@ export default {
       }
       getCode(searchData).then(res => {
         console.log('res', res)
+        this.mobile_code = res.data.code
       })
     }
 
@@ -258,6 +282,14 @@ export default {
         right: 4px;
         cursor: pointer;
       }
+  .check_code {
+    color: blue;
+    text-align: center;
+    height: 40px;
+    width: 60px;
+    letter-spacing: 3px;
+    background-color: #D8B7E3;
+  }
 }
 
 </style>
