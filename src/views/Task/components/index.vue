@@ -209,7 +209,7 @@
             <el-form-item v-if="addForm.if_banner != 3" label="轮播图片:" prop="banner_url">
               <el-upload
                 class="avatar-uploader"
-                action="http://127.0.0.1:5000/cms/fileUpload"
+                action="http://120.48.13.185/cms/fileUpload"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
@@ -223,8 +223,9 @@
             </el-form-item>
           </template>
           <template v-if="kind == 4">
-            <el-form-item label="公司简介" prop="desc">
-              <el-input v-model="addForm.desc" type="textarea" />
+            <el-form-item label="内容" prop="desc">
+              <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
+              <!-- <el-input v-model="addForm.desc" type="textarea" /> -->
             </el-form-item>
           </template>
 
@@ -326,7 +327,7 @@ export default {
         deleteId: ''
       },
       dialogTitle: '',
-      action: 'http://127.0.0.1:5000/cms/fileUpload'
+      action: 'http://120.48.13.185/cms/fileUpload'
     }
   },
   created() {

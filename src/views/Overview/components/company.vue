@@ -59,12 +59,12 @@
             />
           </template>
         </el-table-column>
-        <template v-if="kind == 2">
+        <!-- <template v-if="kind == 2">
           <el-table-column
             label="公司简介"
             prop="desc"
           />
-        </template>
+        </template> -->
         <el-table-column
           label="添加时间"
           prop="addtime"
@@ -128,7 +128,7 @@
           <el-form-item label="logo:" prop="logoUrl" required>
             <el-upload
               class="avatar-uploader"
-              action="http://127.0.0.1:5000/cms/fileUpload"
+              action="http://120.48.13.185/cms/fileUpload"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
@@ -142,9 +142,11 @@
               <el-input v-model="addForm.desc" type="textarea" />
             </el-form-item>
           </template>
-          <el-form-item label="内容:" prop="content">
-            <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
-          </el-form-item>
+          <template v-if="kind != 2">
+            <el-form-item label="内容:" prop="content">
+              <editor-bar v-model="addForm.content" :is-clear="isClear" @change="change" />
+            </el-form-item>
+          </template>
         </el-form>
         <span slot="footer">
           <el-button size="small" type="primary" @click="addSubmit('addForm')">提交</el-button>

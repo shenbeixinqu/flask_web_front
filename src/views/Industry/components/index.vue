@@ -154,7 +154,7 @@
           <el-form-item v-if="addForm.if_banner != 3" label="轮播图片:" prop="banner_url">
             <el-upload
               class="avatar-uploader"
-              action="http://127.0.0.1:5000/cms/fileUpload"
+              action="http://120.48.13.185/cms/fileUpload"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"

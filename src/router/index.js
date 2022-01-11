@@ -143,7 +143,7 @@ export const constantRoutes = [
         path: 'Support',
         name: 'SupportCompany',
         component: () => import('@/views/Overview/Support'),
-        meta: { title: '支撑单位' }
+        meta: { title: '支持单位' }
       },
       {
         path: 'Standard',

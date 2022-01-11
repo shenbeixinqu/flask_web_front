@@ -95,7 +95,7 @@
           <el-form-item label="二维码:" prop="code">
             <el-upload
               class="avatar-uploader"
-              action="http://127.0.0.1:5000/cms/fileUpload"
+              action="http://120.48.13.185/cms/fileUpload"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"

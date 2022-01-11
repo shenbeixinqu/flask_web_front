@@ -167,8 +167,8 @@ export default {
         deleteId: ''
       },
       // 文件上传参数
-      action: 'http://127.0.0.1:5000/cms/fileUpload'
-      // action: 'http://waxh.pg024.com/cms/fileUpload'
+      action: 'http://120.48.13.185/cms/fileUpload'
+      // action: 'http://120.48.13.185/cms/fileUpload'
       // fileList: []
     }
   },

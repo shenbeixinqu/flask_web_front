@@ -10,7 +10,7 @@ export default {
   },
   data() {
     return {
-      companyTitle: '支撑单位'
+      companyTitle: '支持单位'
     }
   }
 }

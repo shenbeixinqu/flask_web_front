@@ -26,8 +26,9 @@
           type="primary"
           size="mini"
           style="text-align:right"
+          :disabled="canClick"
           @click="get_code"
-        >获取验证码</el-button>
+        >{{ content }}</el-button>
       </el-form-item>
       <el-form-item prop="password">
         <el-input
@@ -114,7 +115,10 @@ export default {
       // 验证码相关
       identifyCode: '',
       identifyCodes: '1234567890',
-      mobile_code: ''
+      mobile_code: '',
+      content: '获取验证码',
+      totalTime: 10,
+      canClick: false
     }
   },
   created() {
@@ -191,8 +195,19 @@ export default {
       const searchData = {
         account: this.loginForm.account
       }
+      this.canClick = true
+      this.content = this.totalTime + 's后重新发送'
+      const clock = window.setInterval(() => {
+        this.totalTime--
+        this.content = this.totalTime + 's后重新发送'
+        if (this.totalTime < 1) {
+          window.clearInterval(clock)
+          this.content = '重新发送验证码'
+          this.totalTime = 10
+          this.canClick = false // 这里重新开启
+        }
+      }, 1000)
       getCode(searchData).then(res => {
-        console.log('res', res)
         this.mobile_code = res.data.code
       })
     }

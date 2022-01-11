@@ -154,7 +154,7 @@
           <el-form-item v-if="addForm.if_banner != 3" label="轮播图片:" prop="banner_url">
             <el-upload
               class="avatar-uploader"
-              action="http://127.0.0.1:5000/cms/fileUpload"
+              action="http://120.48.13.185/cms/fileUpload"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
@@ -189,7 +189,7 @@
         width="30%"
         center
       >
-        <div class="dialog_text">请确认是否删除所选会员单位</div>
+        <div class="dialog_text">请确认是否删除所选{{ taskTitle }}</div>
         <span slot="footer">
           <el-button size="small" @click="closeDialogVisible('deleteDialogVisible')">取消</el-button>
           <el-button size="small" type="primary" @click="saveDeleteDialog">确认</el-button>
