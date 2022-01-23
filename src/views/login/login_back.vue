@@ -88,6 +88,8 @@ export default {
     }
     const validateMobileCode = (rule, value, callback) => {
       if (this.mobile_code !== value) {
+        this.error_num += 1
+        this.error_count(this.error_num)
         callback(new Error('请输入正确的短信验证码'))
       } else {
         callback()
@@ -118,7 +120,8 @@ export default {
       mobile_code: '',
       content: '获取验证码',
       totalTime: 10,
-      canClick: false
+      canClick: false,
+      error_num: 0
     }
   },
   created() {
@@ -210,6 +213,11 @@ export default {
       getCode(searchData).then(res => {
         this.mobile_code = res.data.code
       })
+    },
+    error_count(count) {
+      if (count > 3) {
+        this.$message.warning('失败次数过多, 请稍后再试')
+      }
     }
 
   }
