@@ -147,6 +147,9 @@ export default {
   .toolbar {
     border: 1px solid #ccc;
   }
+  .w-e-text-container {
+    height:500px !important; /*!important是重点，因为原div是行内样式设置的高度300px*/
+  }
   .text {
     border: 1px solid #ccc;
     min-height: 500px;

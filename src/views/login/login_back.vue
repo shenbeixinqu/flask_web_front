@@ -230,13 +230,13 @@ export default {
     position: relative;
     width: 460px;
     max-width: 100%;
-    padding: 80px 35px 0;
+    padding: 45px 40px 0;
     margin: 0 auto;
     margin-top: 80px;
     overflow: hidden;
     border-width: 0px;
     left: 430px;
-    top: 100px;
+    top: 30px;
     height: 480px;
     background: inherit;
     background-color: rgba(255, 255, 255, 1);

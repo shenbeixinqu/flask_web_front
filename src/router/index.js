@@ -37,38 +37,38 @@ export const constantRoutes = [
       meta: { title: '首页' }
     }]
   },
-  {
-    path: '/safeCenter',
-    component: Layout,
-    name: '咨询中心',
-    meta: { title: '咨询中心' },
-    children: [
-      {
-        path: 'Law',
-        name: 'Law',
-        component: () => import('@/views/safeCenter/Law'),
-        meta: { title: '法律法规' }
-      },
-      {
-        path: 'Loophole',
-        name: 'Loophole',
-        component: () => import('@/views/safeCenter/Loophole'),
-        meta: { title: '漏洞发布' }
-      },
-      {
-        path: 'SafeEvent',
-        name: 'SafeEvent',
-        component: () => import('@/views/safeCenter/SafeEvent'),
-        meta: { title: '安全事件' }
-      },
-      {
-        path: 'Train',
-        name: 'Train',
-        component: () => import('@/views/safeCenter/SafeService'),
-        meta: { title: '安全服务' }
-      }
-    ]
-  },
+  // {
+  //   path: '/safeCenter',
+  //   component: Layout,
+  //   name: '咨询中心',
+  //   meta: { title: '咨询中心' },
+  //   children: [
+  //     {
+  //       path: 'Law',
+  //       name: 'Law',
+  //       component: () => import('@/views/safeCenter/Law'),
+  //       meta: { title: '法律法规' }
+  //     },
+  //     {
+  //       path: 'Loophole',
+  //       name: 'Loophole',
+  //       component: () => import('@/views/safeCenter/Loophole'),
+  //       meta: { title: '漏洞发布' }
+  //     },
+  //     {
+  //       path: 'SafeEvent',
+  //       name: 'SafeEvent',
+  //       component: () => import('@/views/safeCenter/SafeEvent'),
+  //       meta: { title: '安全事件' }
+  //     },
+  //     {
+  //       path: 'Train',
+  //       name: 'Train',
+  //       component: () => import('@/views/safeCenter/SafeService'),
+  //       meta: { title: '安全服务' }
+  //     }
+  //   ]
+  // },
   {
     path: '/authority',
     component: Layout,

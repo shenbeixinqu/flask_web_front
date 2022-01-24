@@ -45,6 +45,11 @@
           align="center"
         />
         <el-table-column
+          label="备注"
+          prop="desc"
+          align="center"
+        />
+        <el-table-column
           fixed="right"
           label="操作"
           align="center"
@@ -84,6 +89,9 @@
         >
           <el-form-item label="手机号" prop="phone">
             <el-input v-model="addForm.phone" />
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input v-model="addForm.desc" />
           </el-form-item>
         </el-form>
         <span slot="footer">
@@ -133,7 +141,8 @@ export default {
       tableData: [],
       addForm: {
         id: '',
-        phone: ''
+        phone: '',
+        desc: ''
       },
       addRules: {
         phone: [{ required: true, message: '手机号不能为空' }]
@@ -172,6 +181,7 @@ export default {
       this.addDialogVisible = true
       this.addForm.id = ''
       this.addForm.phone = ''
+      this.addForm.desc = ''
     },
     // 编辑
     editUser(row) {
@@ -179,6 +189,7 @@ export default {
       this.addDialogVisible = true
       this.addForm.phone = row.phone
       this.addForm.id = row.id
+      this.addForm.desc = row.desc
     },
     // 提交
     addSubmit(formName) {
